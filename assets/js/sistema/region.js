@@ -5,7 +5,8 @@ $(function(){
         if($("#codigo").val()){
             var url = window.location.pathname.replace("editar/" + $("#codigo").val(), "comunas");
         }else{
-            var url = window.location.pathname.replace("agregar", "comunas");
+            var url = window.location.pathname.replace("agregar", "");
+            var url = url + "comunas";
         }
 
         $.ajax({

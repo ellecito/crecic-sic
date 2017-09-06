@@ -15,6 +15,9 @@
       </div>
       <div class="text-center">
         <button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
+        <br />
+        <br />
+        <a href="registrarme/">Registrarme</a>
       </div>
     </form>
   </div>
