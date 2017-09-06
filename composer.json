@@ -1,0 +1,10 @@
+{
+    "require": {
+        "components/jquery": "3.2.*",
+        "twbs/bootstrap": "^3.3",
+        "fortawesome/font-awesome": "^4.7",
+        "onokumus/metismenu": "dev-master",
+        "needim/noty": "^2.2",
+        "components/jqueryui": "^1.12"
+    }
+}
