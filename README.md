@@ -1,10 +1,14 @@
-# Template Codeigniter
-Template para codeigniter, agregar header y footer, configurar algunas cosas y listo para trabajar.
+# CRECIC SIC
+Sistema Integrado de Capacitación para Crecic
 
 # Precondiciones
-Ejecutar composer para instalar [Jquery](https://jquery.com/) y [Bootstrap](http://getbootstrap.com/).
+Ejecutar [Composer] y [Bower] para instalar dependencias.
 ```
 composer install
 ```
 
-Para mas información, revisar [Composer](https://getcomposer.org/).
+```
+bower install
+```
+
+Para mas información, revisar [Composer](https://getcomposer.org/) y [Bower](https://bower.io/).
