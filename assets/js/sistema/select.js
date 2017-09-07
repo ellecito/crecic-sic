@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $('select').selectpicker({
         liveSearch: true,
+        showSubtext: true,
         noneSelectedText: 'No hay selección',
         noneResultsText: 'No hay resultados {0}',
         countSelectedText: 'Seleccionados {0} de {1}',

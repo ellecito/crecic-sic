@@ -116,7 +116,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i> Estudio de Factibilidad</a>
+                            <a href="<?php echo base_url(); ?>estudio-factibilidad/"><i class="fa fa-edit fa-fw"></i> Estudio de Factibilidad</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Mantenedores<span class="fa arrow"></span></a>
