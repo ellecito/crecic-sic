@@ -148,6 +148,10 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>sucursales/">Sucursales</a>
                                 </li>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>tipo-manual/">Tipo Manual</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
