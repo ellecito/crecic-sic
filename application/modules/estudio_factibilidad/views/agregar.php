@@ -11,7 +11,7 @@
         <li><a href="#requerimientos" data-toggle="tab">Requerimientos</a></li>
         <li><a href="#presupuesto" data-toggle="tab">Presupuesto</a></li>
     </ul>
-    
+    <form id="form-agregar">
     <div class="tab-content">
         <div class="tab-pane active" id="datos">
             <div class="row">
@@ -108,7 +108,6 @@
                             Horarios
                         </div>
                         <div class="panel-body">
-                            <form role="form" id="form-agregar">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -133,42 +132,84 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-default">Agregar</button>
+                                        <button type="submit" id="generar_cronograma" class="btn btn-default">Generar</button>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="dias">Días</label>
                                                 <br/>
-                                                <label class="checkbox-inline"><input type="checkbox" value="1" name="dias">Lu</label>
-                                                <label class="checkbox-inline"><input type="checkbox" value="2" name="dias">Ma</label>
-                                                <label class="checkbox-inline"><input type="checkbox" value="3" name="dias">Mi</label>
-                                                <label class="checkbox-inline"><input type="checkbox" value="4" name="dias">Ju</label>
-                                                <label class="checkbox-inline"><input type="checkbox" value="5" name="dias">Vi</label>
-                                                <label class="checkbox-inline"><input type="checkbox" value="6" name="dias">Sa</label>
-                                                <label class="checkbox-inline"><input type="checkbox" value="7" name="dias">Do</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value="1" name="dias[]">Lu</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value="2" name="dias[]">Ma</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value="3" name="dias[]">Mi</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value="4" name="dias[]">Ju</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value="5" name="dias[]">Vi</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value="6" name="dias[]">Sa</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value="7" name="dias[]">Do</label>
                                                 <br/><br/>
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <label for="desde">Desde</label>
-                                                    <input class="form-control validate[required]" name="desde" id="desde">
+                                                    <input class="form-control time validate[required]" name="desde" id="desde">
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <label for="hasta">Hasta</label>
-                                                    <input class="form-control validate[required]" name="hasta" id="hasta">
+                                                    <input class="form-control time validate[required]" name="hasta" id="hasta">
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <label for="desde2">Desde</label>
-                                                    <input class="form-control" name="desde2" id="desde2">
+                                                    <input class="form-control time" name="desde2" id="desde2">
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <label for="hasta2">Hasta</label>
-                                                    <input class="form-control" name="hasta2" id="hasta2">
+                                                    <input class="form-control time" name="hasta2" id="hasta2">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        Días
+                        </div>
+                        <div class="panel-body" id="cronograma_generado">
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                    </div>
+                                    <div class="col-lg-1">
+                                    <b>Día</b>
+                                    </div>
+                                    <div class="col-lg-2">
+                                    <b>Fecha</b>
+                                    </div>
+                                    <div class="col-lg-1">
+                                    <b>Desde</b>
+                                    </div>
+                                    <div class="col-lg-1">
+                                    <b>Hasta</b>
+                                    </div>
+                                    <div class="col-lg-1">
+                                    <b>Desde</b>
+                                    </div>
+                                    <div class="col-lg-1">
+                                    <b>Hasta</b>
+                                    </div>
+                                    <div class="col-lg-1">
+                                    <b>Horas</b>
+                                    </div>
+                                    <div class="col-lg-2">
+                                    <b>Observación</b>
+                                    </div>
+                                    <div class="col-lg-1">
+                                    <b>Eliminar</b>
+                                    </div>
+                                </div>
+                                <br>
                         </div>
                     </div>
                 </div>
@@ -202,7 +243,7 @@
                                                 <label class="checkbox-inline"><input type="checkbox" value="t" name="arriendo">Arriendo Sala</label>
                                                 <br/><br/>
                                             <label for="sala">Sala</label>
-                                            <input class="form-control validate[required]" name="sala" id="sala">
+                                            <input class="form-control validate[required, custom[integer]]" name="sala" id="sala">
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +290,44 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Requerimientos adquisición
+                        </div>
+                        <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="obs_a">Observación</label>
+                                            <textarea class="form-control validate[required]" name="obs_a" id="obs_a"></textarea>
+                                            <label for="respuesta_a">Respuesta</label>
+                                            <textarea class="form-control" readonly name="respuesta_a" id="respuesta_a"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="coctel">Coctel</label>
+                                            <select name="coctel" id="coctel" class="form-control validate[required]">
+                                                <option value="f_">No</option>
+                                                <option value="t_">Si</option>
+                                            </select>
+                                            <label for="n_participantes">N Participantes</label>
+                                            <input class="form-control validate[required]" id="n_participantes" name="n_participantes">
+                                            <label for="fecha_coctel">Fecha</label>
+                                            <input class="form-control date validate[required]" id="fecha_coctel" name="fecha_coctel">
+                                            <label for="hora_coctel">Hora</label>
+                                            <input class="form-control time validate[required]" id="hora_coctel" name="hora_coctel">
+                                            <label for="direccion_coctel">Dirección/Lugar</label>
+                                            <input class="form-control validate[required]" id="direccion_coctel" name="direccion_coctel">
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    </form>
 </div>

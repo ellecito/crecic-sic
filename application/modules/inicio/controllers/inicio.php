@@ -54,7 +54,7 @@ class Inicio extends CI_Controller {
 					);
 					if($usuario = $this->objUsuario->obtener($where)){
 						$this->session->set_userdata('usuario',$usuario);
-						echo json_encode(array("result"=>true, "url" => "empresas/"));
+						echo json_encode(array("result"=>true, "url" => "estudio-factibilidad/"));
 					}else{
 						echo json_encode(array("result"=>false,"msg"=>"Los datos ingresados no son validos."));
 					}

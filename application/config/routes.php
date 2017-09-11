@@ -22,6 +22,9 @@ $route['tipo-manual']                           = 'tipo_manual';
 $route['estudio-factibilidad/editar/(:num)']    = 'estudio_factibilidad/editar/$1';
 $route['estudio-factibilidad/editar']           = 'estudio_factibilidad/editar';
 $route['estudio-factibilidad/agregar']          = 'estudio_factibilidad/agregar';
+$route['estudio-factibilidad/cronograma']       = 'estudio_factibilidad/cronograma';
+$route['estudio-factibilidad/curso']            = 'estudio_factibilidad/curso';
+$route['estudio-factibilidad/agregar-hora']     = 'estudio_factibilidad/agregar_hora';
 $route['estudio-factibilidad']                  = 'estudio_factibilidad';
 
 /* End of file routes.php */
