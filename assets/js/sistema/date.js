@@ -1,3 +1,6 @@
 $(document).ready(function(){
-    $(".date").datepicker();
+    $(".date").datepicker({
+        changeMonth: false,
+        changeYear: false
+    });
 });

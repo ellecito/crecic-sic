@@ -238,7 +238,7 @@
                                             <label>Requerimientos</label>
                                                 <br/>
                                                 <label class="checkbox-inline"><input type="checkbox" value="t" name="computadores">Computadores</label>
-                                                <label class="checkbox-inline"><input type="checkbox" value="t" name="proyectores">Proyector</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value="t" name="proyector">Proyector</label>
                                                 <label class="checkbox-inline"><input type="checkbox" value="t" name="pizarra">Pizarra</label>
                                                 <label class="checkbox-inline"><input type="checkbox" value="t" name="arriendo">Arriendo Sala</label>
                                                 <br/><br/>
@@ -300,9 +300,9 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="obs_a">Observación</label>
-                                            <textarea class="form-control validate[required]" name="obs_a" id="obs_a"></textarea>
+                                            <textarea class="form-control validate[required]" name="obs_d" id="obs_a"></textarea>
                                             <label for="respuesta_a">Respuesta</label>
-                                            <textarea class="form-control" readonly name="respuesta_a" id="respuesta_a"></textarea>
+                                            <textarea class="form-control" readonly name="respuesta_d" id="respuesta_a"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -312,8 +312,6 @@
                                                 <option value="f_">No</option>
                                                 <option value="t_">Si</option>
                                             </select>
-                                            <label for="n_participantes">N Participantes</label>
-                                            <input class="form-control validate[required]" id="n_participantes" name="n_participantes">
                                             <label for="fecha_coctel">Fecha</label>
                                             <input class="form-control date validate[required]" id="fecha_coctel" name="fecha_coctel">
                                             <label for="hora_coctel">Hora</label>
