@@ -135,10 +135,13 @@ $(document).ready(function(){
         /*Horas en valores enteros*/
         var hora_inicial = parseInt(desde_c[0]) + (parseInt(desde_c[1])/60);
         var hora_termino = parseInt(hasta_c[0]) + (parseInt(hasta_c[1])/60);
-        
+        console.log("Hora Inicial: " + hora_inicial);
+        console.log("Hora Termino: " + hora_termino);
         if(desde2_c[0] && hasta2_c[0]){
             var hora_inicial2 = parseInt(desde2_c[0]) + (parseInt(desde2_c[1])/60);
             var hora_termino2 = parseInt(hasta2_c[0]) + (parseInt(hasta2_c[1])/60);
+            console.log("Hora Inicial 2: " + hora_inicial2);
+            console.log("Hora Termino 2: " + hora_termino2);
         }
 
         /* Validaciones */
@@ -155,6 +158,13 @@ $(document).ready(function(){
         }
 
         if(hora_inicial2 && hora_termino2){
+            if(hora_inicial2 <= hora_termino){
+                hora_inicial2 = hora_termino + 0.5;
+                desde2_c[0] = Math.floor(hora_inicial2);
+                desde2_c[1] = (hora_inicial2 % 1)*60;
+                if(desde2_c[1] == 0) desde2_c[1] = "00";
+                $(row).children(".col-lg-1").children("input[name='desde2_c[]']").val(desde2_c[0] + ":" + desde2_c[1]);
+            }
             if(hora_inicial2 >= hora_termino2){
                 if(hora_inicial2 == hora_termino2){
                     hora_inicial2 = hora_inicial2 - 0.5;
