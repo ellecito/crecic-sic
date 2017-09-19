@@ -23,4 +23,10 @@ $(document).ready(function(){
         min: [8,30],
         max: [23, 30]
     });
+    $('#hora_coctel').pickatime({
+        format: 'H:i',
+        clear: '',
+        min: [8,0],
+        max: [23, 0]
+    });
 });

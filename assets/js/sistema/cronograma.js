@@ -112,6 +112,18 @@ $(document).ready(function(){
                         min: [8,0],
                         max: [23, 0]
                     });
+                    $("input[name='hasta_c[]']").pickatime({
+                        format: 'H:i',
+                        clear: '',
+                        min: [8,30],
+                        max: [23, 30]
+                    });
+                    $("input[name='hasta2_c[]']").pickatime({
+                        format: 'H:i',
+                        clear: '',
+                        min: [8,30],
+                        max: [23, 30]
+                    });
                 }
             }
         });
