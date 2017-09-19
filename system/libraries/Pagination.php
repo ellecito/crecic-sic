@@ -238,7 +238,6 @@ class CI_Pagination {
 			if ($this->use_page_numbers)
 			{
 				$i = $uri_page_number - 1;
-				$i = ($i === 1) ? 0 : $i;
 			}
 			else
 			{
