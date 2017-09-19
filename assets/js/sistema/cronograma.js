@@ -23,9 +23,29 @@ $(document).ready(function(){
                     });
                     $("#cronograma_generado").html(json.html);
                     $("#cronograma_generado").trigger("chosen:updated");
-                    $('.time').pickatime({
+                    $("input[name='desde_c[]']").pickatime({
                         format: 'H:i',
-                        clear: ''
+                        clear: '',
+                        min: [8,0],
+                        max: [23, 0]
+                    });
+                    $("input[name='desde2_c[]']").pickatime({
+                        format: 'H:i',
+                        clear: '',
+                        min: [8,0],
+                        max: [23, 0]
+                    });
+                    $("input[name='hasta_c[]']").pickatime({
+                        format: 'H:i',
+                        clear: '',
+                        min: [8,30],
+                        max: [23, 30]
+                    });
+                    $("input[name='hasta2_c[]']").pickatime({
+                        format: 'H:i',
+                        clear: '',
+                        min: [8,30],
+                        max: [23, 30]
                     });
                     noty({
                         text: "Cronograma generado",
@@ -80,9 +100,17 @@ $(document).ready(function(){
                 if(json.result){
                     $("#cronograma_generado").append(json.html);
                     $("#cronograma_generado").trigger("chosen:updated");
-                    $('.time').pickatime({
+                    $("input[name='desde_c[]']").pickatime({
                         format: 'H:i',
-                        clear: ''
+                        clear: '',
+                        min: [8,0],
+                        max: [23, 0]
+                    });
+                    $("input[name='desde2_c[]']").pickatime({
+                        format: 'H:i',
+                        clear: '',
+                        min: [8,0],
+                        max: [23, 0]
                     });
                 }
             }
@@ -91,40 +119,69 @@ $(document).ready(function(){
 
     $("html").on("change", ".hora_c", function(e){
         "use strict";
-        var desde_c = $(this).parent(".col-lg-1").siblings(".col-lg-1").children("input[name='desde_c[]']").val();
-        var hasta_c = $(this).parent(".col-lg-1").siblings(".col-lg-1").children("input[name='hasta_c[]']").val();
-        var desde2_c = $(this).parent(".col-lg-1").siblings(".col-lg-1").children("input[name='desde2_c[]']").val();
-        var hasta2_c = $(this).parent(".col-lg-1").siblings(".col-lg-1").children("input[name='hasta2_c[]']").val();
-        
-        /* Parche para error del valor actual */
-        if(desde_c === undefined) desde_c = $(this).val();
-        if(hasta_c === undefined) hasta_c = $(this).val();
-        if(desde2_c === undefined) desde2_c = $(this).val();
-        if(hasta2_c === undefined) hasta2_c = $(this).val();
+        /* Captura de datos */
+        var row = $(this).parent(".col-lg-1").parent(".row");
+        var desde_c = $(row).children(".col-lg-1").children("input[name='desde_c[]']").val();
+        var hasta_c = $(row).children(".col-lg-1").children("input[name='hasta_c[]']").val();
+        var desde2_c = $(row).children(".col-lg-1").children("input[name='desde2_c[]']").val();
+        var hasta2_c = $(row).children(".col-lg-1").children("input[name='hasta2_c[]']").val();
 
+        /* Separar hora de minuto */
         desde_c = desde_c.split(":");
         hasta_c = hasta_c.split(":");
         desde2_c = desde2_c.split(":");
         hasta2_c = hasta2_c.split(":");
 
-        /* Validaciones */
-        if(desde_c[0] > hasta_c[0]){
-            //
+        /*Horas en valores enteros*/
+        var hora_inicial = parseInt(desde_c[0]) + (parseInt(desde_c[1])/60);
+        var hora_termino = parseInt(hasta_c[0]) + (parseInt(hasta_c[1])/60);
+        
+        if(desde2_c[0] && hasta2_c[0]){
+            var hora_inicial2 = parseInt(desde2_c[0]) + (parseInt(desde2_c[1])/60);
+            var hora_termino2 = parseInt(hasta2_c[0]) + (parseInt(hasta2_c[1])/60);
         }
 
-        var total = (hasta_c[0] - desde_c[0]);
-        total+= ((hasta_c[1]/60) - (desde_c[1])/60);
-        if(hasta2_c[0] && desde2_c[0]){
-            total+= (hasta2_c[0] - desde2_c[0]);
-            total+= ((hasta2_c[1]/60) - (desde2_c[1])/60);
+        /* Validaciones */
+        if(hora_inicial >= hora_termino){
+            if(hora_inicial == hora_termino){
+                hora_inicial = hora_inicial - 0.5;
+            }else{
+                hora_inicial = hora_termino - 0.5;
+            }
+            desde_c[0] = Math.floor(hora_inicial);
+            desde_c[1] = (hora_inicial % 1)*60;
+            if(desde_c[1] == 0) desde_c[1] = "00";
+            $(row).children(".col-lg-1").children("input[name='desde_c[]']").val(desde_c[0] + ":" + desde_c[1]);
+        }
+
+        if(hora_inicial2 && hora_termino2){
+            if(hora_inicial2 >= hora_termino2){
+                if(hora_inicial2 == hora_termino2){
+                    hora_inicial2 = hora_inicial2 - 0.5;
+                }else{
+                    hora_inicial2 = hora_termino2 - 0.5;
+                }
+                desde2_c[0] = Math.floor(hora_inicial2);
+                desde2_c[1] = (hora_inicial2 % 1)*60;
+                if(desde2_c[1] == 0) desde2_c[1] = "00";
+                $(row).children(".col-lg-1").children("input[name='desde2_c[]']").val(desde2_c[0] + ":" + desde2_c[1]);
+            }
+        }
+
+        var total = (hora_termino - hora_inicial);
+        if(desde2_c[0] && hasta2_c[0]){
+            total+= (hora_termino2 - hora_inicial2);
         }
         
+        /* Total Parcial y Total Total */
         $(this).parent(".col-lg-1").siblings(".total_c").html(total);
         var totales = 0;
         $.each($(".total_c"), function(key, total_c){
             totales+= parseFloat($(total_c).html());
         });
         $("#total_c").html(totales);
+
+        /* Cambio de color */
         if(totales != $("#horas").val()){
             $("#total_c").css("color", "red");
         }else{
