@@ -516,7 +516,7 @@ class Estudio_factibilidad extends CI_Controller {
 						"cr_hora_inicio_t" => date("H:i:s", strtotime($hora_inicio2_c[$i])),
 						"cr_hora_fin_t" => date("H:i:s", strtotime($hora_termino2_c[$i])),
 						"cr_obs" => $obs_c[$i],
-						"ef_codigo" => $estudio_factibilidad["ef_codigo"]
+						"ef_codigo" => $this->input->post("codigo")
 					];
 					$this->objCronograma->actualizar($cronograma, ["cr_codigo" => $this->input->post("i")[$i]]);
 				}
@@ -530,14 +530,14 @@ class Estudio_factibilidad extends CI_Controller {
 					"rt_pizarra" => ($this->input->post("pizarra") ? $this->input->post("pizarra") : "f"),
 					"rt_arriendo" => ($this->input->post("arriendo") ? $this->input->post("arriendo") : "f"),
 					"rt_sala" => $this->input->post("sala"),
-					"ef_codigo" => $estudio_factibilidad["ef_codigo"]
+					"ef_codigo" => $this->input->post("codigo")
 				];
 
 				$this->objRequerimientoTecnico->actualizar($requerimientos_tecnicos, ["rt_codigo" => $this->input->post("codigo_rt")]);
 
 				$requerimientos_academicos = [
 					"ra_obs" => $this->input->post("obs_a"),
-					"ef_codigo" => $estudio_factibilidad["ef_codigo"]
+					"ef_codigo" => $this->input->post("codigo")
 				];
 
 				$this->objRequerimientoAcademico->actualizar($requerimientos_academicos, ["ra_codigo" => $this->input->post("codigo_ra")]);
@@ -553,7 +553,7 @@ class Estudio_factibilidad extends CI_Controller {
 
 				$requerimientos_adquisicion = [
 					"rd_obs" => $this->input->post("obs_d"),
-					"ef_codigo" => $estudio_factibilidad["ef_codigo"]
+					"ef_codigo" => $this->input->post("codigo")
 				];
 
 				$this->objRequerimientoAdquisicion->actualizar($requerimientos_adquisicion, ["rd_codigo" => $this->input->post("codigo_rd")]);
@@ -563,7 +563,7 @@ class Estudio_factibilidad extends CI_Controller {
 					$coctel = [
 						"cc_direccion" => $this->input->post("direccion_coctel"),
 						"cc_fecha" => date("Y-m-d H:i:s", $fecha_coctel),
-						"rd_codigo" => $requerimientos_adquisicion["rd_codigo"]
+						"rd_codigo" => $this->input->post("codigo_rd")
 					];
 					$this->objCoctel->actualizar($coctel, ["cc_codigo" => $this->input->post("codigo_coctel")]);
 				}
