@@ -23,13 +23,15 @@
                             <tr class="odd gradeX">
                                 <td><?php echo $estudio_factibilidad->codigo; ?></td>
                                 <td><?php echo $estudio_factibilidad->nombre_diploma; ?></td>
-                                <td style="text-align: center;">
-                                <a href="editar/<?php echo $estudio_factibilidad->codigo; ?>/">
-                                    <button title="Editar" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>
-                                </a>
-                                <a href="editar/<?php echo $estudio_factibilidad->codigo; ?>/">
-                                    <button title="Editar" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </a>
+                                <td>
+                                    <?php if($estudio_factibilidad->estado){ ?>
+                                        <button type="button" class="btn btn-primary btn-xs" rel="<?php echo $estudio_factibilidad->codigo .'-0'; ?>" >Enviado</button>
+                                    <?php } else{ ?>
+                                        <button type="button" class="btn btn-warning btn-xs estado" rel="<?php echo $estudio_factibilidad->codigo .'-1'; ?>">Borrador</button>
+                                        <a href="editar/<?php echo $estudio_factibilidad->codigo; ?>/">
+                                        <button title="Editar" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>
+                                        </a>
+                                    <?php } ?>
                                 </td>
                             </tr>
                             <?php } ?>

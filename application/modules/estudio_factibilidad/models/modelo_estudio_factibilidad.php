@@ -20,7 +20,28 @@ class Modelo_estudio_factibilidad extends CI_Model {
     }
     
     private function setForeigns(){
-        $foreigns = array();
+		$foreigns = array();
+		
+		$foreign = new stdClass();
+        $foreign->table = "tipo_manual";
+        $foreign->dir = "tipo_manual";
+        $foreigns["tm_codigo"] = $foreign;
+
+        $foreign = new stdClass();
+        $foreign->table = "curso";
+        $foreign->dir = "cursos";
+        $foreigns["cu_codigo"] = $foreign;
+
+        $foreign = new stdClass();
+        $foreign->table = "tipo_curso";
+        $foreign->dir = "tipo_curso";
+		$foreigns["tc_codigo"] = $foreign;
+
+		$foreign = new stdClass();
+        $foreign->table = "usuario";
+        $foreign->dir = "usuarios";
+		$foreigns["us_codigo"] = $foreign;
+		
         return $foreigns;
     }
 	
@@ -39,7 +60,7 @@ class Modelo_estudio_factibilidad extends CI_Model {
 		return $this->db->update($this->tabla, $datos);
 	}
 
-	public function eliminar($datos, $where){
+	public function eliminar($where){
 		$this->db->where($where);
 		return $this->db->delete($this->tabla);
 	}
