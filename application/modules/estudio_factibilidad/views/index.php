@@ -35,7 +35,8 @@
                                     <?php } ?>
                                 </td>
                                 <td>
-                                <button type="button" class="btn btn-primary btn-xs">Libro Clases</button>
+                                <a type="button" class="btn btn-primary btn-xs" href="libro-clase/" target="_blank">Libro Clases</a>
+                                <a type="button" class="btn btn-primary btn-xs" href="pdf/<?php echo $estudio_factibilidad->codigo; ?>" target="_blank">PDF</a>
                                 </td>
                             </tr>
                             <?php } ?>

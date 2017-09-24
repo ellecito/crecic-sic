@@ -642,7 +642,6 @@ class Estudio_factibilidad extends CI_Controller {
 			<table width="86%" align="center" border="0">
 				<tr>
 					<th width="50%" scope="col">
-						<img src="http://164.77.213.107/capacitacion/imagenes/LogoCrecic.jpg" width="347" height="91" />
 					</th>
 					<th width="10%" scope="col">&nbsp;</th>
 					<th width="10%" scope="col">&nbsp;</th>
@@ -741,14 +740,186 @@ class Estudio_factibilidad extends CI_Controller {
 			
 			$nombrePdf = "pdf".time().'.pdf';
 			ob_start();
-			$mpdf=new mPDF('utf-8','','','',0,0,0,0,6,3); 
+			$mpdf=new mPDF('utf-8','','','',0,0,0,0,6,3);
+			$mpdf->SetDisplayMode('fullpage');
+			$mpdf->SetTitle('Libro Clases');
+			$mpdf->SetAuthor('Crecic Ltda');
+			$mpdf->WriteHTML($html, 2);
+			
+			$mpdf->Output($_SERVER['DOCUMENT_ROOT'].$rutaPdf.$nombrePdf,'F');
+			$rutaPdf = base_url() . "assets/files/pdf/";
+			redirect($rutaPdf.$nombrePdf);
+			exit;
+		}else{
+			redirect(base_url());
+		}
+	}
+
+	public function pdf($codigo = false){
+		if($codigo){
+			$estudio_factibilidad = $this->objFactibilidad->obtener_por_codigo($codigo);
+			$cronogramas = $this->objCronograma->listar(["ef_codigo" => $codigo]);
+			$requerimiento_tecnico = $this->objRequerimientoTecnico->obtener(["ef_codigo" => $codigo]);
+			$requerimiento_academico = $this->objRequerimientoAcademico->obtener(["ef_codigo" => $codigo]);
+			$relatores = $this->objRelator->listar(["ra_codigo" => $requerimiento_academico->codigo]);
+			$requerimiento_adquisicion = $this->objRequerimientoAdquisicion->obtener(["ef_codigo" => $codigo]);
+			$coctel = $this->objCoctel->obtener(["rd_codigo" => $requerimiento_adquisicion->codigo]);
+
+			$html = '<div style="padding: 20px;">';
+
+			$html.= '<table style="width: 100%;">';
+
+			$html.= '<tr>';
+			$html.= '<td><img src="assets/img/logo.png" width="15%"></td>';
+			$html.= '<td></td>';
+			$html.= '<td></td>';
+			$html.= '<td><h1>Estudio de Factibilidad</h1></td>';
+			$html.= '<td></td>';
+			$html.= '<td></td>';
+			$html.= '</tr>';
+
+			$html.= '<tr>';
+			$html.= '<td><b>Nombre Diploma</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->nombre_diploma . '</td>';
+			$html.= '<td><b>Correlativo</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->codigo . '</td>';
+			$html.= '<td><b>Fecha Emisión</b></td>';
+			$html.= '<td>' . date("d/m/Y", strtotime($estudio_factibilidad->fecha_emision)) . '</td>';
+			$html.= '</tr>';
+
+			$html.= '<tr>';
+			$html.= '<td><b>Fecha Inicio</b></td>';
+			$html.= '<td>' . date("d/m/Y", strtotime($estudio_factibilidad->fecha_inicio)) . '</td>';
+			$html.= '<td><b>Fecha Termino</b></td>';
+			$html.= '<td>' . date("d/m/Y", strtotime($estudio_factibilidad->fecha_emision)) . '</td>';
+			$html.= '<td><b>Observación</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->obs . '</td>';
+			$html.= '</tr>';
+			
+			$html.= '<tr>';
+			$html.= '<td><b>Tipo Manual</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->tipo_manual->nombre . '</td>';
+			$html.= '<td><b>Asesor</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->usuario->nombres . ' ' . $estudio_factibilidad->usuario->apellido_paterno . ' ' . $estudio_factibilidad->usuario->apellido_materno . '</td>';
+			$html.= '<td><b>Tipo Curso</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->tipo_curso->nombre . '</td>';
+			$html.= '</tr>';
+			
+			$html.= '<tr>';
+			$html.= '<td><b>Curso Sence Código</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->curso->sence . '</td>';
+			$html.= '<td><b>Curso Sence Nombre</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->curso->nombre . '</td>';
+			$html.= '<td><b>Horas</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->curso->horas . '</td>';
+			$html.= '<td><b>Alumnos</b></td>';
+			$html.= '<td>' . $estudio_factibilidad->curso->alumnos . '</td>';
+			$html.= '</tr>';
+
+			$html.= '</table>';
+
+			$html.= '<table style="width: 100%">';
+
+			$html.= '<tr>';
+			$html.= '<td><h1>Cronograma</h1></td>';
+			$html.= '</tr>';
+			
+			foreach($cronogramas as $cronograma){
+				$html.= '<tr>';
+				$html.= '<td><b>' . $cronograma->codigo . '</b></td>';
+				$html.= '<td>' . date('d/m/Y', strtotime($cronograma->fecha)) . '</td>';
+				$html.= '<td>' . date('H:i', strtotime($cronograma->hora_inicio_d)) . '</td>';
+				$html.= '<td>' . date('H:i', strtotime($cronograma->hora_fin_d)) . '</td>';
+				$html.= '<td>' . date('H:i', strtotime($cronograma->hora_inicio_t)) . '</td>';
+				$html.= '<td>' . date('H:i', strtotime($cronograma->hora_fin_t)) . '</td>';
+				$html.= '<td>' . $cronograma->obs . '</td>';
+				$html.= '</tr>';
+			}
+			
+			$html.= '</table>';
+
+			$html.= '<table style="width: 100%">';
+			
+			$html.= '<tr>';
+			$html.= '<td><h1>Requerimientos</h1></td>';
+			$html.= '</tr>';
+
+			$html.= '<tr>';
+			$html.= '<td><b>Requerimiento Técnico</b></td>';
+			$html.= '</tr>';
+			
+			$html.= '<tr>';
+			$html.= '<td><b>Observación</b></td>';
+			$html.= '<td>' . $requerimiento_tecnico->obs . '</td>';
+			$html.= '<td><b>Respuesta</b></td>';
+			$html.= '<td>' . $requerimiento_tecnico->respuesta . '</td>';
+			$html.= '<td><b>Sala</b></td>';
+			$html.= '<td>' . $requerimiento_tecnico->sala . '</td>';
+			$html.= '</tr>';
+
+			$html.= '<tr>';
+			$html.= '<td><b>Computadores</b></td>';
+			$html.= '<td>' . ($requerimiento_tecnico->computadores ? 'Sí' : 'No') . '</td>';
+			$html.= '<td><b>Proyector</b></td>';
+			$html.= '<td>' . ($requerimiento_tecnico->proyector ? 'Sí' : 'No') . '</td>';
+			$html.= '<td><b>Pizarra</b></td>';
+			$html.= '<td>' . ($requerimiento_tecnico->pizarra ? 'Sí' : 'No') . '</td>';
+			$html.= '<td><b>Arriendo</b></td>';
+			$html.= '<td>' . ($requerimiento_tecnico->arriendo ? 'Sí' : 'No') . '</td>';
+			$html.= '</tr>';
+
+			$html.= '<tr>';
+			$html.= '<td><b>Requerimiento Académico</b></td>';
+			$html.= '</tr>';
+			
+			$html.= '<tr>';
+			$html.= '<td><b>Observación</b></td>';
+			$html.= '<td>' . $requerimiento_academico->obs . '</td>';
+			$html.= '<td><b>Respuesta</b></td>';
+			$html.= '<td>' . $requerimiento_academico->respuesta . '</td>';
+			$html.= '</tr>';
+
+			$html.= '<tr>';
+			$html.= '<td><b>Requerimiento Adquisición</b></td>';
+			$html.= '</tr>';
+			
+			$html.= '<tr>';
+			$html.= '<td><b>Observación</b></td>';
+			$html.= '<td>' . $requerimiento_adquisicion->obs . '</td>';
+			$html.= '<td><b>Respuesta</b></td>';
+			$html.= '<td>' . $requerimiento_adquisicion->respuesta . '</td>';
+			$html.= '</tr>';
+			
+			if($coctel){
+				$html.= '<tr>';
+				$html.= '<td><b>Dirección</b></td>';
+				$html.= '<td>' . $coctel->direccion . '</td>';
+				$html.= '<td><b>Fecha</b></td>';
+				$html.= '<td>' . date("d/m/Y H:i", strtotime($coctel->fecha)) . '</td>';
+				$html.= '</tr>';
+			}
+
+			$html.= '</table>';
+
+			$html.= '</div>';
+
+			$rutaPdf = "/crecic/sic/assets/files/";
+			if(!file_exists($_SERVER['DOCUMENT_ROOT'].$rutaPdf))
+				mkdir($_SERVER['DOCUMENT_ROOT'].$rutaPdf, 0777);
+			$rutaPdf .= "pdf/";
+			if(!file_exists($_SERVER['DOCUMENT_ROOT'].$rutaPdf))
+				mkdir($_SERVER['DOCUMENT_ROOT'].$rutaPdf, 0777);
+			
+			$nombrePdf = "pdf".time().'.pdf';
+			ob_start();
+			$mpdf=new mPDF('utf-8','','','',0,0,0,0,6,3);
 			$mpdf->SetDisplayMode('fullpage');
 			$mpdf->SetTitle('Libro Clases');
 			$mpdf->SetAuthor('Crecic Ltda');
 			$mpdf->WriteHTML($html, 2);
 			$mpdf->Output($_SERVER['DOCUMENT_ROOT'].$rutaPdf.$nombrePdf,'F');
-			$rutaPdf = base_url() . "archivos/pdf/";
-			echo json_encode(array("result"=>true,"url"=>$rutaPdf.$nombrePdf));
+			$rutaPdf = base_url() . "assets/files/pdf/";
+			redirect($rutaPdf.$nombrePdf);
 			exit;
 		}else{
 			redirect(base_url());
