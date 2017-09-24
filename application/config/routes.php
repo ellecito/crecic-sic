@@ -24,8 +24,9 @@ $route['estudio-factibilidad/editar']           = 'estudio_factibilidad/editar';
 $route['estudio-factibilidad/agregar']          = 'estudio_factibilidad/agregar';
 $route['estudio-factibilidad/cronograma']       = 'estudio_factibilidad/cronograma';
 $route['estudio-factibilidad/curso']            = 'estudio_factibilidad/curso';
-$route['estudio-factibilidad/estados']            = 'estudio_factibilidad/estados';
+$route['estudio-factibilidad/estados']          = 'estudio_factibilidad/estados';
 $route['estudio-factibilidad/agregar-hora']     = 'estudio_factibilidad/agregar_hora';
+$route['estudio-factibilidad/libro-clase']      = 'estudio_factibilidad/libro_clase';
 $route['estudio-factibilidad']                  = 'estudio_factibilidad';
 
 /* End of file routes.php */

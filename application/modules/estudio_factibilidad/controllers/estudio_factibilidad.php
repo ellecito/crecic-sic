@@ -632,9 +632,126 @@ class Estudio_factibilidad extends CI_Controller {
 
 			$contenido["coctel"] = $this->objCoctel->obtener(["rd_codigo" => $contenido["requerimiento_adquisicion"]->codigo]);
 
-			//die(print_array($contenido));
-
 			$this->layout->view('editar', $contenido);
+		}
+	}
+
+	public function libro_clase(){
+		if(true){
+			$html = '
+			<table width="86%" align="center" border="0">
+				<tr>
+					<th width="50%" scope="col">
+						<img src="http://164.77.213.107/capacitacion/imagenes/LogoCrecic.jpg" width="347" height="91" />
+					</th>
+					<th width="10%" scope="col">&nbsp;</th>
+					<th width="10%" scope="col">&nbsp;</th>
+					<th width="10%" scope="col">&nbsp;</th>
+					<th width="20%" scope="col" align="center" valign="bottom">
+					<div class="bordes">
+						10
+					</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;CORRELATIVO
+					</th>
+				</tr>
+		  	</table>
+		  	<br>
+		  	<table width="80%" border="0" align="center">
+				<tr>
+				<th scope="col" ><u>LIBRO DE CONTROL DE CLASES</u></th>
+				</tr>
+		  	</table><br>
+		  	<table width="97%" border="0" align="center">
+				<tr>
+					<td width="14%">NOMBRE OTEC</td>
+					<th width="2%" scope="col">:</th>
+					<th colspan="2" scope="col">CRECIC</th>
+					<th colspan="2" scope="col">&nbsp;</th>
+					<th width="19%" scope="col">&nbsp;</th>
+				</tr>
+				<tr>
+					<td width="30%">NOMBRE ACTIVIDAD DE CAPACITACIÓN</td>
+					<th>:</th>
+					<th colspan="2">Nombre</th>
+					<td colspan="2">&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td colspan="2">&nbsp;</td>
+					<td width="7%">HORAS: </td>
+					<td width="12%">20</td>
+					<td>&nbsp; </td>
+				</tr>
+				<tr>
+					<td width="30%">CODIGO AUTORIZADO POR SENCE</td>
+					<td>:</td>
+					<td colspan="2">121212</td>
+					<td colspan="2">&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td valign="top" >FECHA DE EJECUCIÓN</td>
+					<td valign="top">:</td>
+					<td width="8%" ><div class="titulo1">INICIO<br>TERMINO</b></td>
+					<td width="38%"><div class="titulo1">:
+					10/10/1010<br>
+					:
+					20/20/2020
+					</div></td>
+					<td colspan="2" rowspan="2">ID:
+					</td>
+				</tr>
+				<tr>
+					<td>LUGAR DE EJECUCIÓN</td>
+					<td>:</td>
+					<td colspan="2">En tu poto</td>
+					<td colspan="2">&nbsp;</td>
+					<td><br></td>
+				</tr>
+				<tr>
+					<td>HORARIO</td>
+					<td>:</td>
+					<td colspan="2">20:20</td>
+					<td colspan="2">&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td colspan="2">&nbsp;</td>
+					<td colspan="2">&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>NOMBRE INSTRUCTOR(ES)</td>
+					<td>:</td> 
+					<th colspan="2">El profe</th>
+					<td>&nbsp;</td>
+				</tr>
+			</table>';
+
+			$rutaPdf = "/crecic/sic/assets/files/";
+			if(!file_exists($_SERVER['DOCUMENT_ROOT'].$rutaPdf))
+				mkdir($_SERVER['DOCUMENT_ROOT'].$rutaPdf, 0777);
+			$rutaPdf .= "pdf/";
+			if(!file_exists($_SERVER['DOCUMENT_ROOT'].$rutaPdf))
+				mkdir($_SERVER['DOCUMENT_ROOT'].$rutaPdf, 0777);
+			
+			$nombrePdf = "pdf".time().'.pdf';
+			ob_start();
+			$mpdf=new mPDF('utf-8','','','',0,0,0,0,6,3); 
+			$mpdf->SetDisplayMode('fullpage');
+			$mpdf->SetTitle('Libro Clases');
+			$mpdf->SetAuthor('Crecic Ltda');
+			$mpdf->WriteHTML($html, 2);
+			$mpdf->Output($_SERVER['DOCUMENT_ROOT'].$rutaPdf.$nombrePdf,'F');
+			$rutaPdf = base_url() . "archivos/pdf/";
+			echo json_encode(array("result"=>true,"url"=>$rutaPdf.$nombrePdf));
+			exit;
+		}else{
+			redirect(base_url());
 		}
 	}
 	

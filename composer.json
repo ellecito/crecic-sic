@@ -5,6 +5,7 @@
         "fortawesome/font-awesome": "^4.7",
         "onokumus/metismenu": "dev-master",
         "needim/noty": "^2.2",
-        "components/jqueryui": "^1.12"
+        "components/jqueryui": "^1.12",
+        "mpdf/mpdf": "^6.1"
     }
 }

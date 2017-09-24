@@ -15,6 +15,7 @@
                                 <th>Código</th>
                                 <th>Nombre</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,6 +33,9 @@
                                         <button title="Editar" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>
                                         </a>
                                     <?php } ?>
+                                </td>
+                                <td>
+                                <button type="button" class="btn btn-primary btn-xs">Libro Clases</button>
                                 </td>
                             </tr>
                             <?php } ?>
