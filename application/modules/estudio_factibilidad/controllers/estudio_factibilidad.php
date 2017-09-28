@@ -419,6 +419,7 @@ class Estudio_factibilidad extends CI_Controller {
 			$this->layout->js('assets/js/sistema/agregar.js');
 			$this->layout->js('assets/js/sistema/curso.js');
 			$this->layout->js('assets/js/sistema/cronograma.js');
+			$this->layout->js('assets/js/sistema/presupuesto.js');
 
 			$contenido = [
 				"tipo_cursos" => $this->objTipoCurso->listar(),
@@ -430,6 +431,8 @@ class Estudio_factibilidad extends CI_Controller {
 				"tipo_manuales" => $this->objTipoManual->listar(),
 				"usuarios" => $this->objUsuario->listar() //Filtrar solo relatores y activos
 			];
+
+			$contenido["costos_fijos"] = ["Hora-Relator", "Manuales/Pendrive", "Blocks", "Diplomas/Sobres", "Coffee Break", "Lápiz Corp", "Materiales/Insumos", "Arriendo Sala", "Arriendo Equipos", "Traslado"];
 
 			$this->layout->view('agregar', $contenido);
 		}
@@ -705,7 +708,7 @@ class Estudio_factibilidad extends CI_Controller {
 				<tr>
 					<td>LUGAR DE EJECUCIÓN</td>
 					<td>:</td>
-					<td colspan="2">En tu poto</td>
+					<td colspan="2">asdsads</td>
 					<td colspan="2">&nbsp;</td>
 					<td><br></td>
 				</tr>
@@ -920,7 +923,6 @@ class Estudio_factibilidad extends CI_Controller {
 			$mpdf->Output($_SERVER['DOCUMENT_ROOT'].$rutaPdf.$nombrePdf,'F');
 			$rutaPdf = base_url() . "assets/files/pdf/";
 			redirect($rutaPdf.$nombrePdf);
-			exit;
 		}else{
 			redirect(base_url());
 		}

@@ -326,6 +326,152 @@
                 </div>
             </div>
         </div>
+
+        <div class="tab-pane" id="presupuesto">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Costos Operativos
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-3">INGRESOS - VENTAS</div>
+                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]"></div>
+                                <div class="col-lg-3">TOTAL INGRESO CAP (+)</div>
+                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">COSTOS DIRECTOS (-)</div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3">COSTOS FIJOS (-)</div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">COMISION ASESOR</div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3">UTILIDAD BRUTA</div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">VH ALUMNO</div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3">V ALUMNO</div>
+                                <div class="col-lg-3"><input type="text" class="form-control validate[required, integer]"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">VH RELATOR</div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><b>BENEFICIO NETO</b></div>
+                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]"></div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <b>COSTOS OPERACION</b>
+                                </div>
+                                <div class="col-lg-2">
+                                    <b>UNITARIO</b>
+                                </div>
+                                <div class="col-lg-2">
+                                    <b>ADICIONAL</b>
+                                </div>
+                                <div class="col-lg-2">
+                                    <b>SUBTOTAL</b>
+                                </div>
+                                <div class="col-lg-2">
+                                    <b>DETALLE</b>
+                                </div>
+                                <div class="col-lg-1">
+                                    <b>CANTIDAD</b>
+                                </div>
+                                <div class="col-lg-1">
+                                    <b>%</b>
+                                </div>
+                            </div>
+                            <br>
+                            <?php foreach($costos_fijos as $costo_fijo){ ?>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <input readonly class="form-control validate[required]" value="<?php echo $costo_fijo; ?>">
+                                </div>
+                                <div class="col-lg-2">
+                                    <input class="form-control validate[required, integer]" name="unitario[]">
+                                </div>
+                                <div class="col-lg-2">
+                                    <input class="form-control validate[integer]" name="adicional[]">
+                                </div>
+                                <div class="col-lg-2">
+                                    <input readonly class="form-control validate[required, integer]" name="subtotal[]">
+                                </div>
+                                <div class="col-lg-2">
+                                    <textarea class="form-control validate[required]"></textarea>
+                                </div>
+                                <div class="col-lg-1">
+                                    <input class="form-control validate[required, integer]">
+                                </div>
+                                <div class="col-lg-1">
+                                    <input class="form-control validate[required, integer, min[0], max[100]]">
+                                </div>
+                            </div>
+                            <?php } ?>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <b>Total Costos Directos</b>
+                                </div>
+                                <div class="col-lg-2">
+                                    <input readonly class="form-control validate[required]">
+                                </div>
+                                <div class="col-lg-2">
+                                </div>
+                                <div class="col-lg-2">
+                                    <input readonly class="form-control validate[required]">
+                                </div>
+                                <div class="col-lg-2">
+                                </div>
+                                <div class="col-lg-1">
+                                </div>
+                                <div class="col-lg-1">
+                                    <input readonly class="form-control validate[required]">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <b>Asignación Costos Fijos</b>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input class="form-control validate[required]">
+                                </div>
+                                <div class="col-lg-3">
+                                    <b>Comisiones al Asesor</b>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input class="form-control validate[required, integer, min[0], max[100]]">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <b>Gasto Total</b>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input readonly class="form-control validate[required]">
+                                </div>
+                                <div class="col-lg-3">
+                                    <b>Utilidad Bruta</b>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input readonly class="form-control validate[required]">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     </form>
 </div>
