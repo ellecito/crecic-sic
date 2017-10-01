@@ -1,5 +1,5 @@
 <?php
-class Modelo_requerimiento_academico extends CI_Model {
+class Modelo_empresa_estudio extends CI_Model {
 	private $tabla;
     private $prefijo;
     private $foreigns;

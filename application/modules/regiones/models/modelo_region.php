@@ -39,7 +39,7 @@ class Modelo_region extends CI_Model {
 		return $this->db->update($this->tabla, $datos);
 	}
 
-	public function eliminar($datos, $where){
+	public function eliminar($where){
 		$this->db->where($where);
 		return $this->db->delete($this->tabla);
 	}
