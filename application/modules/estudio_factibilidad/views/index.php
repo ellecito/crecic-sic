@@ -30,8 +30,12 @@
                                     <?php } else{ ?>
                                         <button type="button" class="btn btn-warning btn-xs estado" rel="<?php echo $estudio_factibilidad->codigo .'-1'; ?>">Borrador</button>
                                         <a href="editar/<?php echo $estudio_factibilidad->codigo; ?>/">
-                                        <button title="Editar" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>
+                                        <button type="button" class="btn btn-success btn-xs">Editar</button>
                                         </a>
+                                        <button type="button" class="btn btn-danger btn-xs eliminar" rel="<?php echo $estudio_factibilidad->codigo; ?>">Eliminar</button>
+                                    <?php } ?>
+                                    <?php if(!$estudio_factibilidad->estado and $this->session->userdata("usuario")->perfil->codigo == 2 and !$estudio_factibilidad->visado) { ?>
+                                    <button type="button" class="btn btn-primary btn-xs visar" rel="<?php echo $estudio_factibilidad->codigo .'-1'; ?>" >Visar</button>
                                     <?php } ?>
                                 </td>
                                 <td>

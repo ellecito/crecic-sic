@@ -33,6 +33,10 @@
                                     <input name="alumnos" id="alumnos" class="form-control validate[required, custom[integer]]" placeholder="20" value="<?php echo $curso->alumnos; ?>">
                                 </div>
                                 <div class="form-group">
+                                    <label for="valor">Valor Alumno</label>
+                                    <input name="valor" id="valor" class="form-control validate[required, custom[integer]]" value="<?php echo $curso->valor_alumno; ?>">
+                                </div>
+                                <div class="form-group">
                                     <label for="fecha_emision">Fecha Emisión</label>
                                     <input name="fecha_emision" id="fecha_emision" class="form-control validate[required, custom[date]] date" placeholder="dd/mm/yyyy" value="<?php echo date('d/m/Y', strtotime($curso->fecha_emision)); ?>">
                                 </div>

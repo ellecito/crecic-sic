@@ -13,6 +13,7 @@ class Estudio_factibilidad extends CI_Controller {
 		$this->load->model("modelo_requerimiento_adquisicion", "objRequerimientoAdquisicion");
 		$this->load->model("modelo_coctel", "objCoctel");
 		$this->load->model("modelo_relatores", "objRelator");
+		$this->load->model("modelo_empresa_estudio", "objCliente");
 		$this->load->model("tipo_curso/modelo_tipo_curso", "objTipoCurso");
 		$this->load->model("tipo_manual/modelo_tipo_manual", "objTipoManual");
 		$this->load->model("sucursales/modelo_sucursal", "objSucursal");
@@ -46,6 +47,35 @@ class Estudio_factibilidad extends CI_Controller {
 		try{
 			list($codigo,$estado) = explode('-',$this->input->post('codigo'));
 			$this->objFactibilidad->actualizar(array("ef_estado"=>$estado),array("ef_codigo"=>$codigo));
+			echo json_encode(array("result"=>true));
+		}
+		catch(Exception $e){
+			echo json_encode(array("result"=>false,"msg"=>"Ha ocurrido un error inesperado. Por favor, inténtelo nuevamente."));
+		}
+	}
+	
+	public function visar(){
+		try{
+			list($codigo,$estado) = explode('-',$this->input->post('codigo'));
+			$this->objFactibilidad->actualizar(array("ef_visado"=>$estado),array("ef_codigo"=>$codigo));
+			echo json_encode(array("result"=>true));
+		}
+		catch(Exception $e){
+			echo json_encode(array("result"=>false,"msg"=>"Ha ocurrido un error inesperado. Por favor, inténtelo nuevamente."));
+		}
+	}
+
+	public function eliminar(){
+		try{
+			$this->objCronograma->eliminar(["ef_codigo" => $this->input->post('codigo')]);
+			$this->objRequerimientoTecnico->eliminar(["ef_codigo" => $this->input->post('codigo')]);
+			$requerimiento_academico = $this->objRequerimientoAcademico->obtener(["ef_codigo" => $this->input->post('codigo')]);
+			$this->objRelator->eliminar(["ra_codigo" => $requerimiento_academico->codigo]);
+			$this->objRequerimientoAcademico->eliminar(["ef_codigo" => $this->input->post('codigo')]);
+			$requerimiento_adquisicion = $this->objRequerimientoAdquisicion->obtener(["ef_codigo" => $this->input->post('codigo')]);
+			$this->objCoctel->eliminar(["rd_codigo" => $requerimiento_adquisicion->codigo]);
+			$this->objRequerimientoAdquisicion->eliminar(["ef_codigo" => $this->input->post('codigo')]);
+			$this->objFactibilidad->eliminar(["ef_codigo" => $this->input->post('codigo')]);
 			echo json_encode(array("result"=>true));
 		}
 		catch(Exception $e){
@@ -316,6 +346,12 @@ class Estudio_factibilidad extends CI_Controller {
 			];
 
 			if($this->objFactibilidad->insertar($estudio_factibilidad)){
+				/* Agregar Cliente */
+				$cliente = [
+					"ef_codigo" => $estudio_factibilidad["ef_codigo"],
+					"em_codigo" => $this->input->post("empresa")
+				];
+				$this->objCliente->insertar($cliente);
 				/* Agregar cronogramas */
 				for($i =0; $i < count($fecha_c) ; $i++){
 					$cronograma = [
@@ -510,6 +546,12 @@ class Estudio_factibilidad extends CI_Controller {
 			];
 
 			if($this->objFactibilidad->actualizar($estudio_factibilidad, ["ef_codigo" => $this->input->post("codigo")])){
+				/* Agregar Cliente */
+				$cliente = [
+					"em_codigo" => $this->input->post("empresa")
+				];
+				$this->objCliente->actualizar($cliente, ["ef_codigo" => $this->input->post("codigo")]);
+
 				/* Editar cronogramas */
 				for($i = 0; $i < count($fecha_c) ; $i++){
 					$cronograma = [

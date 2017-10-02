@@ -34,7 +34,8 @@ class Cursos extends CI_Controller {
             $this->form_validation->set_rules('sence', 'Código Sence', 'required');
             $this->form_validation->set_rules('nombre', 'Nombre', 'required');
             $this->form_validation->set_rules('horas', 'Horas', 'required');
-            $this->form_validation->set_rules('alumnos', 'Alumnos', 'required');
+			$this->form_validation->set_rules('alumnos', 'Alumnos', 'required');
+			$this->form_validation->set_rules('valor', 'Valor Alumno', 'required');
             $this->form_validation->set_rules('fecha_emision', 'Fecha Emisión', 'required');
             $this->form_validation->set_rules('fecha_vencimiento', 'Fecha Vencimiento', 'required');
 			
@@ -57,7 +58,8 @@ class Cursos extends CI_Controller {
                 "cu_nombre" => $this->input->post("nombre"),
                 "cu_sence" => $this->input->post("sence"),
                 "cu_alumnos" => $this->input->post("alumnos"),
-                "cu_horas" => $this->input->post("horas"),
+				"cu_horas" => $this->input->post("horas"),
+				"cu_valor_alumno" => $this->input->post("valor"),
                 "cu_fecha_emision" => date("Y-m-d", strtotime(str_replace("/", "-", $this->input->post("fecha_emision")))),
                 "cu_fecha_vencimiento" => date("Y-m-d", strtotime(str_replace("/", "-", $this->input->post("fecha_vencimiento"))))
 			];
@@ -97,6 +99,7 @@ class Cursos extends CI_Controller {
             $this->form_validation->set_rules('nombre', 'Nombre', 'required');
             $this->form_validation->set_rules('horas', 'Horas', 'required');
             $this->form_validation->set_rules('alumnos', 'Alumnos', 'required');
+            $this->form_validation->set_rules('valor', 'Valor Alumno', 'required');
             $this->form_validation->set_rules('fecha_emision', 'Fecha Emisión', 'required');
             $this->form_validation->set_rules('fecha_vencimiento', 'Fecha Vencimiento', 'required');
 			
@@ -123,6 +126,7 @@ class Cursos extends CI_Controller {
                 "cu_sence" => $this->input->post("sence"),
                 "cu_alumnos" => $this->input->post("alumnos"),
                 "cu_horas" => $this->input->post("horas"),
+                "cu_valor_alumno" => $this->input->post("valor"),
                 "cu_fecha_emision" => date("Y-m-d", strtotime(str_replace("/", "-", $this->input->post("fecha_emision")))),
                 "cu_fecha_vencimiento" => date("Y-m-d", strtotime(str_replace("/", "-", $this->input->post("fecha_vencimiento"))))
 			];

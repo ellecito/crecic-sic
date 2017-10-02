@@ -17,27 +17,31 @@
                             <form role="form" id="form-agregar">
                                 <div class="form-group">
                                     <label for="sence">Código Sence</label>
-                                    <input name="sence" id="sence" class="form-control validate[required, custom[integer]]" placeholder="1234567890">
+                                    <input name="sence" id="sence" class="form-control validate[required, custom[integer]]">
                                 </div>
                                 <div class="form-group">
                                     <label for="nombre">Nombre</label>
-                                    <input name="nombre" id="nombre" class="form-control validate[required]" placeholder="Nombre">
+                                    <input name="nombre" id="nombre" class="form-control validate[required]">
                                 </div>
                                 <div class="form-group">
                                     <label for="horas">Horas</label>
-                                    <input name="horas" id="horas" class="form-control validate[required, custom[integer]]" placeholder="200">
+                                    <input name="horas" id="horas" class="form-control validate[required, custom[integer]]">
                                 </div>
                                 <div class="form-group">
                                     <label for="alumnos">Alumnos</label>
-                                    <input name="alumnos" id="alumnos" class="form-control validate[required, custom[integer]]" placeholder="20">
+                                    <input name="alumnos" id="alumnos" class="form-control validate[required, custom[integer]]">
+                                </div>
+                                <div class="form-group">
+                                    <label for="valor">Valor Alumno</label>
+                                    <input name="valor" id="valor" class="form-control validate[required, custom[integer]]">
                                 </div>
                                 <div class="form-group">
                                     <label for="fecha_emision">Fecha Emisión</label>
-                                    <input name="fecha_emision" id="fecha_emision" class="form-control validate[required, custom[date]] date" placeholder="dd/mm/yyyy">
+                                    <input name="fecha_emision" id="fecha_emision" class="form-control validate[required, custom[date]] date">
                                 </div>
                                 <div class="form-group">
                                     <label for="fecha_vencimiento">Fecha Vencimiento</label>
-                                    <input name="fecha_vencimiento" id="fecha_vencimiento" class="form-control validate[required, custom[date]] date" placeholder="dd/mm/yyyy">
+                                    <input name="fecha_vencimiento" id="fecha_vencimiento" class="form-control validate[required, custom[date]] date">
                                 </div>
                                 <button type="submit" class="btn btn-default">Agregar</button>
                             </form>

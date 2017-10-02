@@ -9,7 +9,7 @@
         <li class="active"><a href="#datos" data-toggle="tab">Datos</a></li>
         <li><a href="#cronograma" data-toggle="tab">Cronograma</a></li>
         <li><a href="#requerimientos" data-toggle="tab">Requerimientos</a></li>
-        <li><a href="#presupuesto" data-toggle="tab">Presupuesto</a></li>
+        <li><a href="#presupuesto" data-toggle="tab" style="display: none;">Presupuesto</a></li>
     </ul>
     <form id="form-agregar">
     <div class="tab-content">
@@ -337,15 +337,15 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-3">INGRESOS - VENTAS</div>
-                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]" name="ingreso_ventas" id="ingreso_ventas"></div>
                                 <div class="col-lg-3">TOTAL INGRESO CAP (+)</div>
-                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]" name="total_ingreso" id="total_ingreso"></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">COSTOS DIRECTOS (-)</div>
-                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]" name="costos_directos" id="costos_directos"></div>
                                 <div class="col-lg-3">COSTOS FIJOS (-)</div>
-                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]" name="costos_fijos" id="costos_fijos"></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">COMISION ASESOR</div>
@@ -355,9 +355,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">VH ALUMNO</div>
-                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]" name="valor_hh_a" id="valor_hh_a"></div>
                                 <div class="col-lg-3">V ALUMNO</div>
-                                <div class="col-lg-3"><input type="text" class="form-control validate[required, integer]"></div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required, integer]" name="valor_alumno" id="valor_alumno"></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">VH RELATOR</div>
@@ -412,7 +412,7 @@
                                     <input class="form-control validate[required, integer]">
                                 </div>
                                 <div class="col-lg-1">
-                                    <input class="form-control validate[required, integer, min[0], max[100]]">
+                                    <input class="form-control validate[required, integer, min[0], max[100]]" name="porcentaje[]">
                                 </div>
                             </div>
                             <?php } ?>
@@ -422,34 +422,38 @@
                                     <b>Total Costos Directos</b>
                                 </div>
                                 <div class="col-lg-2">
-                                    <input readonly class="form-control validate[required]">
+                                    <input readonly class="form-control validate[required]" name="total_u" id="total_u">
                                 </div>
                                 <div class="col-lg-2">
                                 </div>
                                 <div class="col-lg-2">
-                                    <input readonly class="form-control validate[required]">
+                                    <input readonly class="form-control validate[required]" name="total" id="total">
                                 </div>
                                 <div class="col-lg-2">
                                 </div>
                                 <div class="col-lg-1">
                                 </div>
                                 <div class="col-lg-1">
-                                    <input readonly class="form-control validate[required]">
+                                    <input readonly class="form-control validate[required]" name="total_p" id="total_p">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-lg-3">
-                                    <b>Asignación Costos Fijos</b>
+                                    <b>Asignación Costos Fijos (%)</b>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input class="form-control validate[required]">
+                                    <select class="form-control validate[required]" name="porcentaje_cf" id="porcentaje_cf">
+                                        <option disabled selected>Seleccione</option>
+                                        <option value="18">18%</option>
+                                        <option value="27">27%</option>
+                                    </select>
                                 </div>
                                 <div class="col-lg-3">
-                                    <b>Comisiones al Asesor</b>
+                                    <b>Comisiones al Asesor (%)</b>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input class="form-control validate[required, integer, min[0], max[100]]">
+                                    <input class="form-control validate[required, integer, min[0], max[100]]" name="porcentaje_ca" id="porcentaje_ca">
                                 </div>
                             </div>
                             <br>
@@ -458,13 +462,13 @@
                                     <b>Gasto Total</b>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input readonly class="form-control validate[required]">
+                                    <input readonly class="form-control validate[required]" name="gasto_total" id="gasto_total">
                                 </div>
                                 <div class="col-lg-3">
                                     <b>Utilidad Bruta</b>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input readonly class="form-control validate[required]">
+                                    <input readonly class="form-control validate[required]" name="utilidad_bruta" id="utilidad_bruta">
                                 </div>
                             </div>
                         </div>

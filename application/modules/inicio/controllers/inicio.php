@@ -4,7 +4,7 @@ class Inicio extends CI_Controller {
 	
 	function __construct(){
 		parent::__construct();
-		$this->layout->current = 1;
+		if($this->session->userdata("usuario")) redirect(base_url() . "estudio-factibilidad/");
 		$this->load->model("usuarios/modelo_usuario", "objUsuario");
 	}
 
