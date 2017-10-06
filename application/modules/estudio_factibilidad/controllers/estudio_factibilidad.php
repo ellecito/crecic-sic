@@ -13,6 +13,8 @@ class Estudio_factibilidad extends CI_Controller {
 		$this->load->model("modelo_requerimiento_adquisicion", "objRequerimientoAdquisicion");
 		$this->load->model("modelo_coctel", "objCoctel");
 		$this->load->model("modelo_relatores", "objRelator");
+		$this->load->model("modelo_presupuesto", "objPresupuesto");
+		$this->load->model("modelo_costos_operativos", "objCostos");
 		$this->load->model("modelo_empresa_estudio", "objCliente");
 		$this->load->model("tipo_curso/modelo_tipo_curso", "objTipoCurso");
 		$this->load->model("tipo_manual/modelo_tipo_manual", "objTipoManual");
@@ -416,6 +418,39 @@ class Estudio_factibilidad extends CI_Controller {
 					];
 					$this->objCoctel->insertar($coctel);
 				}
+
+				/* Presupuestos */
+				$presupuesto = [
+					"pr_codigo" => $this->objPresupuesto->getLastId(),
+					"pr_ingreso_ventas" => $this->input->post("ingreso_ventas"),
+					"pr_costos_directos" => $this->input->post("costos_directos"),
+					"pr_costos_fijos" => $this->input->post("costos_fijos"),
+					"pr_comision_asesor" => $this->input->post("comision_asesor"),
+					"pr_utilidad_bruta" => $this->input->post("utilidad_bruta"),
+					"pr_utilidad_bruta_porcentaje" => $this->input->post("utilidad_bruta_p"),
+					"pr_valor_hora_relator" => $this->input->post("valor_hh_r"),
+					"pr_beneficio_neto" => $this->input->post("beneficio_neto"),
+					"pr_costos_fijos_porcentaje" => $this->input->post("porcentaje_cf"),
+					"pr_comision_asesor_porcentaje" => $this->input->post("porcentaje_ca"),
+					"ef_codigo" => $estudio_factibilidad["ef_codigo"]
+				];
+
+				$this->objPresupuesto->insertar($presupuesto);
+
+				for($i = 0; $i < count($this->input->post("unitario")); $i++){
+					$costos_operativos = [
+						"ct_codigo" => $this->objCostos->getLastId(),
+						"ct_nombre" => $this->input->post("nombre_costo")[$i],
+						"ct_unitario" => $this->input->post("unotario")[$i],
+						"ct_adicional" => $this->input->post("adicional")[$i],
+						"ct_subtotal" => $this->input->post("subtotal")[$i],
+						"ct_detalle" => $this->input->post("detalle_costo")[$i],
+						"ct_cantidad" => $this->input->post("cantidad_costo")[$i],
+						"ct_porcentaje" => $this->input->post("porcentaje")[$i],
+						"pr_codigo" => $presupuesto["pr_codigo"]
+					];
+					$this->objCostos->insertar($costos_operativos);
+				}
 				
 				echo json_encode(array("result"=>true));
 				exit;
@@ -612,6 +647,38 @@ class Estudio_factibilidad extends CI_Controller {
 					];
 					$this->objCoctel->actualizar($coctel, ["cc_codigo" => $this->input->post("codigo_coctel")]);
 				}
+
+				/* Presupuestos */
+				$presupuesto = [
+					"pr_ingreso_ventas" => $this->input->post("ingreso_ventas"),
+					"pr_costos_directos" => $this->input->post("costos_directos"),
+					"pr_costos_fijos" => $this->input->post("costos_fijos"),
+					"pr_comision_asesor" => $this->input->post("comision_asesor"),
+					"pr_utilidad_bruta" => $this->input->post("utilidad_bruta"),
+					"pr_utilidad_bruta_porcentaje" => $this->input->post("utilidad_bruta_p"),
+					"pr_valor_hora_relator" => $this->input->post("valor_hh_r"),
+					"pr_beneficio_neto" => $this->input->post("beneficio_neto"),
+					"pr_costos_fijos_porcentaje" => $this->input->post("porcentaje_cf"),
+					"pr_comision_asesor_porcentaje" => $this->input->post("porcentaje_ca"),
+					"ef_codigo" => $this->input->post("codigo")
+				];
+
+				$this->objPresupuesto->actualizar($presupuesto, ["pr_codigo" => $this->input->post("codigo_presupuesto")]);
+
+				for($i = 0; $i < count($this->input->post("unitario")); $i++){
+					$costos_operativos = [
+						"ct_nombre" => $this->input->post("nombre_costo")[$i],
+						"ct_unitario" => $this->input->post("unotario")[$i],
+						"ct_adicional" => $this->input->post("adicional")[$i],
+						"ct_subtotal" => $this->input->post("subtotal")[$i],
+						"ct_detalle" => $this->input->post("detalle_costo")[$i],
+						"ct_cantidad" => $this->input->post("cantidad_costo")[$i],
+						"ct_porcentaje" => $this->input->post("porcentaje")[$i],
+						"pr_codigo" => $this->input->post("codigo_presupuesto")
+					];
+					$this->objCostos->actualizar($costos_operativos, ["ct_codigo" => $this->input->post("codigo_costo")[$i]]);
+				}
+
 				echo json_encode(array("result"=>true));
 				exit;
 			}else{
@@ -650,6 +717,7 @@ class Estudio_factibilidad extends CI_Controller {
 			$this->layout->js('assets/js/sistema/editar.js');
 			$this->layout->js('assets/js/sistema/curso.js');
 			$this->layout->js('assets/js/sistema/cronograma.js');
+			$this->layout->js('assets/js/sistema/presupuesto.js');
 
 			$estudio_factibilidad = $this->objFactibilidad->obtener_por_codigo($codigo);
 			if($estudio_factibilidad->estado) redirect(base_url() . "estudio-factibilidad/");
@@ -667,6 +735,7 @@ class Estudio_factibilidad extends CI_Controller {
 				"requerimiento_academico" => $this->objRequerimientoAcademico->obtener(["ef_codigo" => $codigo]),
 				"relatores" => [],
 				"requerimiento_adquisicion" => $this->objRequerimientoAdquisicion->obtener(["ef_codigo" => $codigo]),
+				"presupuesto" => $this->objPresupuesto->obtener(["ef_codigo" => $codigo]),
 				"usuarios" => $this->objUsuario->listar() //Filtrar solo relatores y activos
 			];
 
@@ -676,6 +745,8 @@ class Estudio_factibilidad extends CI_Controller {
 			}
 
 			$contenido["coctel"] = $this->objCoctel->obtener(["rd_codigo" => $contenido["requerimiento_adquisicion"]->codigo]);
+
+			$contenido["costos_operativos"] = $this->objCostos->obtener(["pr_codigo" => $contenido["presupuesto"]->codigo]);
 
 			$this->layout->view('editar', $contenido);
 		}

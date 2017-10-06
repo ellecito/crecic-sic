@@ -349,9 +349,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">COMISION ASESOR</div>
-                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]" name="comision_asesor" id="comision_asesor"></div>
                                 <div class="col-lg-3">UTILIDAD BRUTA</div>
-                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]" name="utilidad_bruta_p" id="utilidad_bruta_p"></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">VH ALUMNO</div>
@@ -361,9 +361,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">VH RELATOR</div>
-                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input readonly type="text" class="form-control validate[required]" name="valor_hh_r" id="valor_hh_r"></div>
                                 <div class="col-lg-3"><b>BENEFICIO NETO</b></div>
-                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]"></div>
+                                <div class="col-lg-3"><input type="text" readonly class="form-control validate[required]" name="beneficio_neto" id="beneficio_neto"></div>
                             </div>
                             <br>
                             <br>
@@ -394,7 +394,7 @@
                             <?php foreach($costos_fijos as $costo_fijo){ ?>
                             <div class="row">
                                 <div class="col-lg-2">
-                                    <input readonly class="form-control validate[required]" value="<?php echo $costo_fijo; ?>">
+                                    <input readonly class="form-control validate[required]" value="<?php echo $costo_fijo; ?>" name="nombre_costo[]">
                                 </div>
                                 <div class="col-lg-2">
                                     <input class="form-control validate[required, integer]" name="unitario[]">
@@ -406,10 +406,10 @@
                                     <input readonly class="form-control validate[required, integer]" name="subtotal[]">
                                 </div>
                                 <div class="col-lg-2">
-                                    <textarea class="form-control validate[required]"></textarea>
+                                    <textarea class="form-control validate[required]" name="detalle_costo[]"></textarea>
                                 </div>
                                 <div class="col-lg-1">
-                                    <input class="form-control validate[required, integer]">
+                                    <input class="form-control validate[required, integer]" name="cantidad_costo[]">
                                 </div>
                                 <div class="col-lg-1">
                                     <input class="form-control validate[required, integer, min[0], max[100]]" name="porcentaje[]">
