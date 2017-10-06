@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.12
 -- Dumped by pg_dump version 9.4.12
--- Started on 2017-09-28 00:07:41 -03
+-- Started on 2017-10-06 01:24:49 -03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -22,7 +22,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2256 (class 0 OID 0)
+-- TOC entry 2273 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -66,6 +66,26 @@ CREATE TABLE comuna (
 ALTER TABLE comuna OWNER TO postgres;
 
 --
+-- TOC entry 192 (class 1259 OID 16963)
+-- Name: costos_operativos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE costos_operativos (
+    ct_codigo integer NOT NULL,
+    ct_nombre character varying(256),
+    ct_unitario integer,
+    ct_adicional integer,
+    ct_subtotal integer,
+    ct_detalle character varying(256),
+    ct_cantidad smallint,
+    ct_porcentaje smallint,
+    pr_codigo integer
+);
+
+
+ALTER TABLE costos_operativos OWNER TO postgres;
+
+--
 -- TOC entry 175 (class 1259 OID 16688)
 -- Name: cronograma; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
@@ -96,7 +116,8 @@ CREATE TABLE curso (
     cu_fecha_vencimiento date,
     cu_horas smallint,
     cu_alumnos smallint,
-    cu_sence integer
+    cu_sence integer,
+    cu_valor_alumno integer
 );
 
 
@@ -150,7 +171,9 @@ CREATE TABLE estudio_factibilidad (
     cu_codigo integer NOT NULL,
     tc_codigo integer NOT NULL,
     us_codigo integer NOT NULL,
-    ef_estado boolean
+    ef_estado boolean,
+    ef_visado boolean,
+    su_codigo integer
 );
 
 
@@ -181,6 +204,29 @@ CREATE TABLE perfil (
 
 
 ALTER TABLE perfil OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 16958)
+-- Name: presupuesto; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE presupuesto (
+    pr_codigo integer NOT NULL,
+    pr_ingreso_ventas integer,
+    pr_costos_directos integer,
+    pr_costos_fijos integer,
+    pr_comision_asesor integer,
+    pr_utilidad_bruta integer,
+    pr_utilidad_bruta_porcentaje integer,
+    pr_valor_hora_relator integer,
+    pr_beneficio_neto integer,
+    pr_costos_fijos_porcentaje integer,
+    pr_comision_asesor_porcentaje integer,
+    ef_codigo integer
+);
+
+
+ALTER TABLE presupuesto OWNER TO postgres;
 
 --
 -- TOC entry 182 (class 1259 OID 16748)
@@ -322,19 +368,18 @@ CREATE TABLE usuario (
 ALTER TABLE usuario OWNER TO postgres;
 
 --
--- TOC entry 2231 (class 0 OID 16675)
+-- TOC entry 2246 (class 0 OID 16675)
 -- Dependencies: 173
 -- Data for Name: coctel; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY coctel (cc_codigo, cc_direccion, cc_fecha, rd_codigo) FROM stdin;
-2		2113-02-09 20:00:00	2
 1		2065-05-20 17:00:00	1
 \.
 
 
 --
--- TOC entry 2232 (class 0 OID 16681)
+-- TOC entry 2247 (class 0 OID 16681)
 -- Dependencies: 174
 -- Data for Name: comuna; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -690,27 +735,27 @@ COPY comuna (co_codigo, co_nombre, re_codigo) FROM stdin;
 
 
 --
--- TOC entry 2233 (class 0 OID 16688)
+-- TOC entry 2265 (class 0 OID 16963)
+-- Dependencies: 192
+-- Data for Name: costos_operativos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY costos_operativos (ct_codigo, ct_nombre, ct_unitario, ct_adicional, ct_subtotal, ct_detalle, ct_cantidad, ct_porcentaje, pr_codigo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2248 (class 0 OID 16688)
 -- Dependencies: 175
 -- Data for Name: cronograma; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY cronograma (cr_codigo, cr_fecha, cr_hora_inicio_d, cr_hora_fin_d, cr_hora_inicio_t, cr_hora_fin_t, cr_obs, ef_codigo) FROM stdin;
-6	2017-09-02	08:00:00	11:00:00	12:00:00	14:00:00		2
-7	2017-09-03	08:00:00	11:00:00	12:00:00	14:00:00		2
-8	2017-09-09	08:00:00	11:00:00	12:00:00	14:00:00		2
-9	2017-09-10	08:00:00	11:00:00	12:00:00	14:00:00		2
-10	2017-09-16	08:00:00	11:00:00	12:00:00	13:00:00		2
 11	2017-09-02	08:00:00	11:00:00	12:00:00	14:00:00		3
 12	2017-09-03	08:00:00	11:00:00	12:00:00	14:00:00		3
 13	2017-09-09	08:00:00	11:00:00	12:00:00	14:00:00		3
 14	2017-09-10	08:00:00	11:00:00	12:00:00	14:00:00		3
 15	2017-09-16	08:00:00	11:00:00	12:00:00	13:00:00		3
-16	2017-09-02	08:00:00	11:00:00	12:00:00	14:00:00		4
-17	2017-09-03	08:00:00	11:00:00	12:00:00	14:00:00		4
-18	2017-09-09	08:00:00	11:00:00	12:00:00	14:00:00		4
-19	2017-09-10	08:00:00	11:00:00	12:00:00	14:00:00		4
-20	2017-09-16	08:00:00	11:00:00	12:00:00	13:00:00		4
 2	2017-09-03	08:00:00	11:00:00	12:00:00	14:00:00		1
 1	2017-09-02	08:00:00	11:00:00	12:00:00	14:00:00		1
 3	2017-09-09	08:00:00	11:00:00	12:00:00	14:00:00		1
@@ -720,18 +765,18 @@ COPY cronograma (cr_codigo, cr_fecha, cr_hora_inicio_d, cr_hora_fin_d, cr_hora_i
 
 
 --
--- TOC entry 2234 (class 0 OID 16698)
+-- TOC entry 2249 (class 0 OID 16698)
 -- Dependencies: 176
 -- Data for Name: curso; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY curso (cu_codigo, cu_nombre, cu_fecha_emision, cu_fecha_vencimiento, cu_horas, cu_alumnos, cu_sence) FROM stdin;
-1	Legislación Laboral	2005-04-11	2021-04-11	24	30	1237741940
+COPY curso (cu_codigo, cu_nombre, cu_fecha_emision, cu_fecha_vencimiento, cu_horas, cu_alumnos, cu_sence, cu_valor_alumno) FROM stdin;
+1	Legislación Laboral	2005-04-11	2021-04-11	24	30	1237741940	96000
 \.
 
 
 --
--- TOC entry 2235 (class 0 OID 16704)
+-- TOC entry 2250 (class 0 OID 16704)
 -- Dependencies: 177
 -- Data for Name: empresa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -744,7 +789,7 @@ COPY empresa (em_codigo, em_rut, em_razon_social, em_direccion, em_email, gi_cod
 
 
 --
--- TOC entry 2236 (class 0 OID 16715)
+-- TOC entry 2251 (class 0 OID 16715)
 -- Dependencies: 178
 -- Data for Name: empresa_estudio; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -754,21 +799,19 @@ COPY empresa_estudio (ef_codigo, em_codigo) FROM stdin;
 
 
 --
--- TOC entry 2237 (class 0 OID 16723)
+-- TOC entry 2252 (class 0 OID 16723)
 -- Dependencies: 179
 -- Data for Name: estudio_factibilidad; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY estudio_factibilidad (ef_codigo, ef_fecha_emision, ef_nombre_diploma, ef_direccion_realizacion, ef_fecha_inicio, ef_fecha_termino, ef_obs, tm_codigo, cu_codigo, tc_codigo, us_codigo, ef_estado) FROM stdin;
-2	2017-09-22	Prueba	Prueba	2017-09-02	2017-09-16	Prueba	1	1	1	1	\N
-3	2017-09-22	Prueba	Prueba	2017-09-02	2017-09-16	Prueba	1	1	1	1	\N
-4	2017-09-22	Prueba	Prueba	2017-09-02	2017-09-16	Prueba	1	1	1	1	\N
-1	2017-09-23	Prueba?	Prueba?	2017-09-03	2017-09-16	Prueba	1	1	1	1	\N
+COPY estudio_factibilidad (ef_codigo, ef_fecha_emision, ef_nombre_diploma, ef_direccion_realizacion, ef_fecha_inicio, ef_fecha_termino, ef_obs, tm_codigo, cu_codigo, tc_codigo, us_codigo, ef_estado, ef_visado, su_codigo) FROM stdin;
+1	2017-09-23	Prueba?	Prueba?	2017-09-03	2017-09-16	Prueba	1	1	1	1	\N	\N	\N
+3	2017-09-22	Prueba	Prueba	2017-09-02	2017-09-16	Prueba	1	1	1	1	t	\N	\N
 \.
 
 
 --
--- TOC entry 2238 (class 0 OID 16736)
+-- TOC entry 2253 (class 0 OID 16736)
 -- Dependencies: 180
 -- Data for Name: giro; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -782,7 +825,7 @@ COPY giro (gi_codigo, gi_nombre) FROM stdin;
 
 
 --
--- TOC entry 2239 (class 0 OID 16742)
+-- TOC entry 2254 (class 0 OID 16742)
 -- Dependencies: 181
 -- Data for Name: perfil; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -803,7 +846,17 @@ COPY perfil (pe_codigo, pe_nombre) FROM stdin;
 
 
 --
--- TOC entry 2240 (class 0 OID 16748)
+-- TOC entry 2264 (class 0 OID 16958)
+-- Dependencies: 191
+-- Data for Name: presupuesto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY presupuesto (pr_codigo, pr_ingreso_ventas, pr_costos_directos, pr_costos_fijos, pr_comision_asesor, pr_utilidad_bruta, pr_utilidad_bruta_porcentaje, pr_valor_hora_relator, pr_beneficio_neto, pr_costos_fijos_porcentaje, pr_comision_asesor_porcentaje, ef_codigo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2255 (class 0 OID 16748)
 -- Dependencies: 182
 -- Data for Name: region; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -828,7 +881,7 @@ COPY region (re_codigo, re_nombre, re_orden) FROM stdin;
 
 
 --
--- TOC entry 2241 (class 0 OID 16754)
+-- TOC entry 2256 (class 0 OID 16754)
 -- Dependencies: 183
 -- Data for Name: relatores; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -838,55 +891,48 @@ COPY relatores (ra_codigo, us_codigo) FROM stdin;
 2	1
 3	1
 3	2
-4	1
-4	2
 1	1
 1	2
 \.
 
 
 --
--- TOC entry 2248 (class 0 OID 16938)
+-- TOC entry 2263 (class 0 OID 16938)
 -- Dependencies: 190
 -- Data for Name: requerimiento_academico; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY requerimiento_academico (ra_codigo, ra_obs, ra_respuesta, ef_codigo) FROM stdin;
-2	Prueba	\N	2
 3	Prueba	\N	3
-4	Prueba	\N	4
 1	Prueba	\N	1
 \.
 
 
 --
--- TOC entry 2242 (class 0 OID 16772)
+-- TOC entry 2257 (class 0 OID 16772)
 -- Dependencies: 184
 -- Data for Name: requerimiento_adquisicion; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY requerimiento_adquisicion (rd_codigo, rd_obs, rd_respuesta, ef_codigo) FROM stdin;
-2	Prueba	\N	4
 1	Prueba	\N	1
 \.
 
 
 --
--- TOC entry 2243 (class 0 OID 16782)
+-- TOC entry 2258 (class 0 OID 16782)
 -- Dependencies: 185
 -- Data for Name: requerimiento_tecnico; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY requerimiento_tecnico (rt_codigo, rt_obs, rt_respuesta, rt_computadores, rt_proyector, rt_pizarra, rt_arriendo, rt_sala, rt_vb, ef_codigo) FROM stdin;
-2	Prueba	\N	t	t	t	f	22	\N	2
 3	Prueba	\N	t	t	t	f	22	\N	3
-4	Prueba	\N	t	t	t	f	22	\N	4
 1	Prueba	\N	t	t	t	f	22	\N	1
 \.
 
 
 --
--- TOC entry 2244 (class 0 OID 16792)
+-- TOC entry 2259 (class 0 OID 16792)
 -- Dependencies: 186
 -- Data for Name: sucursal; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -901,7 +947,7 @@ COPY sucursal (su_codigo, su_nombre) FROM stdin;
 
 
 --
--- TOC entry 2245 (class 0 OID 16798)
+-- TOC entry 2260 (class 0 OID 16798)
 -- Dependencies: 187
 -- Data for Name: tipo_curso; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -912,7 +958,7 @@ COPY tipo_curso (tc_codigo, tc_nombre) FROM stdin;
 
 
 --
--- TOC entry 2246 (class 0 OID 16804)
+-- TOC entry 2261 (class 0 OID 16804)
 -- Dependencies: 188
 -- Data for Name: tipo_manual; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -925,7 +971,7 @@ COPY tipo_manual (tm_codigo, tm_nombre) FROM stdin;
 
 
 --
--- TOC entry 2247 (class 0 OID 16810)
+-- TOC entry 2262 (class 0 OID 16810)
 -- Dependencies: 189
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -939,7 +985,7 @@ COPY usuario (us_codigo, us_rut, us_nombres, us_apellido_paterno, us_apellido_ma
 
 
 --
--- TOC entry 2034 (class 2606 OID 16679)
+-- TOC entry 2043 (class 2606 OID 16679)
 -- Name: pk_coctel; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -948,7 +994,7 @@ ALTER TABLE ONLY coctel
 
 
 --
--- TOC entry 2037 (class 2606 OID 16685)
+-- TOC entry 2046 (class 2606 OID 16685)
 -- Name: pk_comuna; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -957,7 +1003,16 @@ ALTER TABLE ONLY comuna
 
 
 --
--- TOC entry 2042 (class 2606 OID 16695)
+-- TOC entry 2116 (class 2606 OID 16972)
+-- Name: pk_costos_operativos; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY costos_operativos
+    ADD CONSTRAINT pk_costos_operativos PRIMARY KEY (ct_codigo);
+
+
+--
+-- TOC entry 2051 (class 2606 OID 16695)
 -- Name: pk_cronograma; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -966,7 +1021,7 @@ ALTER TABLE ONLY cronograma
 
 
 --
--- TOC entry 2045 (class 2606 OID 16702)
+-- TOC entry 2054 (class 2606 OID 16702)
 -- Name: pk_curso; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -975,7 +1030,7 @@ ALTER TABLE ONLY curso
 
 
 --
--- TOC entry 2050 (class 2606 OID 16711)
+-- TOC entry 2059 (class 2606 OID 16711)
 -- Name: pk_empresa; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -984,7 +1039,7 @@ ALTER TABLE ONLY empresa
 
 
 --
--- TOC entry 2055 (class 2606 OID 16719)
+-- TOC entry 2064 (class 2606 OID 16719)
 -- Name: pk_empresa_estudio; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -993,7 +1048,7 @@ ALTER TABLE ONLY empresa_estudio
 
 
 --
--- TOC entry 2061 (class 2606 OID 16730)
+-- TOC entry 2070 (class 2606 OID 16730)
 -- Name: pk_estudio_factibilidad; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1002,7 +1057,7 @@ ALTER TABLE ONLY estudio_factibilidad
 
 
 --
--- TOC entry 2065 (class 2606 OID 16740)
+-- TOC entry 2074 (class 2606 OID 16740)
 -- Name: pk_giro; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1011,7 +1066,7 @@ ALTER TABLE ONLY giro
 
 
 --
--- TOC entry 2068 (class 2606 OID 16746)
+-- TOC entry 2077 (class 2606 OID 16746)
 -- Name: pk_perfil; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1020,7 +1075,16 @@ ALTER TABLE ONLY perfil
 
 
 --
--- TOC entry 2070 (class 2606 OID 16752)
+-- TOC entry 2114 (class 2606 OID 16974)
+-- Name: pk_presupuesto; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY presupuesto
+    ADD CONSTRAINT pk_presupuesto PRIMARY KEY (pr_codigo);
+
+
+--
+-- TOC entry 2079 (class 2606 OID 16752)
 -- Name: pk_region; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1029,7 +1093,7 @@ ALTER TABLE ONLY region
 
 
 --
--- TOC entry 2073 (class 2606 OID 16758)
+-- TOC entry 2082 (class 2606 OID 16758)
 -- Name: pk_relatores; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1038,7 +1102,7 @@ ALTER TABLE ONLY relatores
 
 
 --
--- TOC entry 2102 (class 2606 OID 16945)
+-- TOC entry 2111 (class 2606 OID 16945)
 -- Name: pk_requerimiento_academico; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1047,7 +1111,7 @@ ALTER TABLE ONLY requerimiento_academico
 
 
 --
--- TOC entry 2079 (class 2606 OID 16779)
+-- TOC entry 2088 (class 2606 OID 16779)
 -- Name: pk_requerimiento_adquisicion; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1056,7 +1120,7 @@ ALTER TABLE ONLY requerimiento_adquisicion
 
 
 --
--- TOC entry 2083 (class 2606 OID 16789)
+-- TOC entry 2092 (class 2606 OID 16789)
 -- Name: pk_requerimiento_tecnico; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1065,7 +1129,7 @@ ALTER TABLE ONLY requerimiento_tecnico
 
 
 --
--- TOC entry 2086 (class 2606 OID 16796)
+-- TOC entry 2095 (class 2606 OID 16796)
 -- Name: pk_sucursal; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1074,7 +1138,7 @@ ALTER TABLE ONLY sucursal
 
 
 --
--- TOC entry 2089 (class 2606 OID 16802)
+-- TOC entry 2098 (class 2606 OID 16802)
 -- Name: pk_tipo_curso; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1083,7 +1147,7 @@ ALTER TABLE ONLY tipo_curso
 
 
 --
--- TOC entry 2092 (class 2606 OID 16808)
+-- TOC entry 2101 (class 2606 OID 16808)
 -- Name: pk_tipo_manual; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1092,7 +1156,7 @@ ALTER TABLE ONLY tipo_manual
 
 
 --
--- TOC entry 2096 (class 2606 OID 16814)
+-- TOC entry 2105 (class 2606 OID 16814)
 -- Name: pk_usuario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1101,7 +1165,7 @@ ALTER TABLE ONLY usuario
 
 
 --
--- TOC entry 2032 (class 1259 OID 16680)
+-- TOC entry 2041 (class 1259 OID 16680)
 -- Name: coctel_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1109,7 +1173,7 @@ CREATE UNIQUE INDEX coctel_pk ON coctel USING btree (cc_codigo);
 
 
 --
--- TOC entry 2035 (class 1259 OID 16686)
+-- TOC entry 2044 (class 1259 OID 16686)
 -- Name: comuna_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1117,7 +1181,7 @@ CREATE UNIQUE INDEX comuna_pk ON comuna USING btree (co_codigo);
 
 
 --
--- TOC entry 2039 (class 1259 OID 16696)
+-- TOC entry 2048 (class 1259 OID 16696)
 -- Name: cronograma_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1125,7 +1189,7 @@ CREATE UNIQUE INDEX cronograma_pk ON cronograma USING btree (cr_codigo);
 
 
 --
--- TOC entry 2040 (class 1259 OID 16697)
+-- TOC entry 2049 (class 1259 OID 16697)
 -- Name: cronogramas_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1133,7 +1197,7 @@ CREATE INDEX cronogramas_fk ON cronograma USING btree (ef_codigo);
 
 
 --
--- TOC entry 2043 (class 1259 OID 16703)
+-- TOC entry 2052 (class 1259 OID 16703)
 -- Name: curso_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1141,7 +1205,7 @@ CREATE UNIQUE INDEX curso_pk ON curso USING btree (cu_codigo);
 
 
 --
--- TOC entry 2056 (class 1259 OID 16733)
+-- TOC entry 2065 (class 1259 OID 16733)
 -- Name: curso_sence_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1149,7 +1213,7 @@ CREATE INDEX curso_sence_fk ON estudio_factibilidad USING btree (cu_codigo);
 
 
 --
--- TOC entry 2046 (class 1259 OID 16714)
+-- TOC entry 2055 (class 1259 OID 16714)
 -- Name: empresa_comuna_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1157,7 +1221,7 @@ CREATE INDEX empresa_comuna_fk ON empresa USING btree (co_codigo);
 
 
 --
--- TOC entry 2051 (class 1259 OID 16722)
+-- TOC entry 2060 (class 1259 OID 16722)
 -- Name: empresa_estudio2_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1165,7 +1229,7 @@ CREATE INDEX empresa_estudio2_fk ON empresa_estudio USING btree (em_codigo);
 
 
 --
--- TOC entry 2052 (class 1259 OID 16721)
+-- TOC entry 2061 (class 1259 OID 16721)
 -- Name: empresa_estudio_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1173,7 +1237,7 @@ CREATE INDEX empresa_estudio_fk ON empresa_estudio USING btree (ef_codigo);
 
 
 --
--- TOC entry 2053 (class 1259 OID 16720)
+-- TOC entry 2062 (class 1259 OID 16720)
 -- Name: empresa_estudio_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1181,7 +1245,7 @@ CREATE UNIQUE INDEX empresa_estudio_pk ON empresa_estudio USING btree (ef_codigo
 
 
 --
--- TOC entry 2047 (class 1259 OID 16712)
+-- TOC entry 2056 (class 1259 OID 16712)
 -- Name: empresa_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1189,7 +1253,7 @@ CREATE UNIQUE INDEX empresa_pk ON empresa USING btree (em_codigo);
 
 
 --
--- TOC entry 2057 (class 1259 OID 16731)
+-- TOC entry 2066 (class 1259 OID 16731)
 -- Name: estudio_factibilidad_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1197,7 +1261,7 @@ CREATE UNIQUE INDEX estudio_factibilidad_pk ON estudio_factibilidad USING btree 
 
 
 --
--- TOC entry 2058 (class 1259 OID 16734)
+-- TOC entry 2067 (class 1259 OID 16734)
 -- Name: estudio_tipo_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1205,7 +1269,7 @@ CREATE INDEX estudio_tipo_fk ON estudio_factibilidad USING btree (tc_codigo);
 
 
 --
--- TOC entry 2100 (class 1259 OID 16947)
+-- TOC entry 2109 (class 1259 OID 16947)
 -- Name: factibilidad_academica_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1213,7 +1277,7 @@ CREATE INDEX factibilidad_academica_fk ON requerimiento_academico USING btree (e
 
 
 --
--- TOC entry 2081 (class 1259 OID 16791)
+-- TOC entry 2090 (class 1259 OID 16791)
 -- Name: factibilidad_tecnica_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1221,7 +1285,7 @@ CREATE INDEX factibilidad_tecnica_fk ON requerimiento_tecnico USING btree (ef_co
 
 
 --
--- TOC entry 2077 (class 1259 OID 16781)
+-- TOC entry 2086 (class 1259 OID 16781)
 -- Name: factiblidad_adquisicion_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1229,7 +1293,7 @@ CREATE INDEX factiblidad_adquisicion_fk ON requerimiento_adquisicion USING btree
 
 
 --
--- TOC entry 2048 (class 1259 OID 16713)
+-- TOC entry 2057 (class 1259 OID 16713)
 -- Name: giro_empresarial_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1237,7 +1301,7 @@ CREATE INDEX giro_empresarial_fk ON empresa USING btree (gi_codigo);
 
 
 --
--- TOC entry 2063 (class 1259 OID 16741)
+-- TOC entry 2072 (class 1259 OID 16741)
 -- Name: giro_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1245,7 +1309,7 @@ CREATE UNIQUE INDEX giro_pk ON giro USING btree (gi_codigo);
 
 
 --
--- TOC entry 2059 (class 1259 OID 16732)
+-- TOC entry 2068 (class 1259 OID 16732)
 -- Name: manual_factibilidad_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1253,7 +1317,7 @@ CREATE INDEX manual_factibilidad_fk ON estudio_factibilidad USING btree (tm_codi
 
 
 --
--- TOC entry 2066 (class 1259 OID 16747)
+-- TOC entry 2075 (class 1259 OID 16747)
 -- Name: perfil_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1261,7 +1325,7 @@ CREATE UNIQUE INDEX perfil_pk ON perfil USING btree (pe_codigo);
 
 
 --
--- TOC entry 2094 (class 1259 OID 16816)
+-- TOC entry 2103 (class 1259 OID 16816)
 -- Name: perfil_usuario_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1269,7 +1333,7 @@ CREATE INDEX perfil_usuario_fk ON usuario USING btree (pe_codigo);
 
 
 --
--- TOC entry 2038 (class 1259 OID 16687)
+-- TOC entry 2047 (class 1259 OID 16687)
 -- Name: region_comuna_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1277,7 +1341,7 @@ CREATE INDEX region_comuna_fk ON comuna USING btree (re_codigo);
 
 
 --
--- TOC entry 2071 (class 1259 OID 16753)
+-- TOC entry 2080 (class 1259 OID 16753)
 -- Name: region_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1285,7 +1349,7 @@ CREATE UNIQUE INDEX region_pk ON region USING btree (re_codigo);
 
 
 --
--- TOC entry 2074 (class 1259 OID 16761)
+-- TOC entry 2083 (class 1259 OID 16761)
 -- Name: relatores2_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1293,7 +1357,7 @@ CREATE INDEX relatores2_fk ON relatores USING btree (us_codigo);
 
 
 --
--- TOC entry 2075 (class 1259 OID 16760)
+-- TOC entry 2084 (class 1259 OID 16760)
 -- Name: relatores_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1301,7 +1365,7 @@ CREATE INDEX relatores_fk ON relatores USING btree (ra_codigo);
 
 
 --
--- TOC entry 2076 (class 1259 OID 16759)
+-- TOC entry 2085 (class 1259 OID 16759)
 -- Name: relatores_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1309,7 +1373,7 @@ CREATE UNIQUE INDEX relatores_pk ON relatores USING btree (ra_codigo, us_codigo)
 
 
 --
--- TOC entry 2103 (class 1259 OID 16946)
+-- TOC entry 2112 (class 1259 OID 16946)
 -- Name: requerimiento_academico_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1317,7 +1381,7 @@ CREATE UNIQUE INDEX requerimiento_academico_pk ON requerimiento_academico USING 
 
 
 --
--- TOC entry 2080 (class 1259 OID 16780)
+-- TOC entry 2089 (class 1259 OID 16780)
 -- Name: requerimiento_adquisicion_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1325,7 +1389,7 @@ CREATE UNIQUE INDEX requerimiento_adquisicion_pk ON requerimiento_adquisicion US
 
 
 --
--- TOC entry 2084 (class 1259 OID 16790)
+-- TOC entry 2093 (class 1259 OID 16790)
 -- Name: requerimiento_tecnico_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1333,7 +1397,7 @@ CREATE UNIQUE INDEX requerimiento_tecnico_pk ON requerimiento_tecnico USING btre
 
 
 --
--- TOC entry 2087 (class 1259 OID 16797)
+-- TOC entry 2096 (class 1259 OID 16797)
 -- Name: sucursal_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1341,7 +1405,7 @@ CREATE UNIQUE INDEX sucursal_pk ON sucursal USING btree (su_codigo);
 
 
 --
--- TOC entry 2097 (class 1259 OID 16817)
+-- TOC entry 2106 (class 1259 OID 16817)
 -- Name: sucusal_usuario_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1349,7 +1413,7 @@ CREATE INDEX sucusal_usuario_fk ON usuario USING btree (su_codigo);
 
 
 --
--- TOC entry 2090 (class 1259 OID 16803)
+-- TOC entry 2099 (class 1259 OID 16803)
 -- Name: tipo_curso_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1357,7 +1421,7 @@ CREATE UNIQUE INDEX tipo_curso_pk ON tipo_curso USING btree (tc_codigo);
 
 
 --
--- TOC entry 2093 (class 1259 OID 16809)
+-- TOC entry 2102 (class 1259 OID 16809)
 -- Name: tipo_manual_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1365,7 +1429,7 @@ CREATE UNIQUE INDEX tipo_manual_pk ON tipo_manual USING btree (tm_codigo);
 
 
 --
--- TOC entry 2098 (class 1259 OID 16818)
+-- TOC entry 2107 (class 1259 OID 16818)
 -- Name: usuario_comuna_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1373,7 +1437,7 @@ CREATE INDEX usuario_comuna_fk ON usuario USING btree (co_codigo);
 
 
 --
--- TOC entry 2099 (class 1259 OID 16815)
+-- TOC entry 2108 (class 1259 OID 16815)
 -- Name: usuario_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1381,7 +1445,7 @@ CREATE UNIQUE INDEX usuario_pk ON usuario USING btree (us_codigo);
 
 
 --
--- TOC entry 2062 (class 1259 OID 16735)
+-- TOC entry 2071 (class 1259 OID 16735)
 -- Name: vendedor_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1389,7 +1453,7 @@ CREATE INDEX vendedor_fk ON estudio_factibilidad USING btree (us_codigo);
 
 
 --
--- TOC entry 2104 (class 2606 OID 16819)
+-- TOC entry 2117 (class 2606 OID 16819)
 -- Name: fk_coctel_entrega_d_requerim; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1398,7 +1462,7 @@ ALTER TABLE ONLY coctel
 
 
 --
--- TOC entry 2105 (class 2606 OID 16824)
+-- TOC entry 2118 (class 2606 OID 16824)
 -- Name: fk_comuna_region_co_region; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1407,7 +1471,16 @@ ALTER TABLE ONLY comuna
 
 
 --
--- TOC entry 2106 (class 2606 OID 16829)
+-- TOC entry 2136 (class 2606 OID 16980)
+-- Name: fk_costos_presupuesto; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY costos_operativos
+    ADD CONSTRAINT fk_costos_presupuesto FOREIGN KEY (pr_codigo) REFERENCES presupuesto(pr_codigo);
+
+
+--
+-- TOC entry 2119 (class 2606 OID 16829)
 -- Name: fk_cronogra_cronogram_estudio_; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1416,7 +1489,7 @@ ALTER TABLE ONLY cronograma
 
 
 --
--- TOC entry 2110 (class 2606 OID 16849)
+-- TOC entry 2123 (class 2606 OID 16849)
 -- Name: fk_empresa__empresa_e_empresa; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1425,7 +1498,7 @@ ALTER TABLE ONLY empresa_estudio
 
 
 --
--- TOC entry 2109 (class 2606 OID 16844)
+-- TOC entry 2122 (class 2606 OID 16844)
 -- Name: fk_empresa__empresa_e_estudio_; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1434,7 +1507,7 @@ ALTER TABLE ONLY empresa_estudio
 
 
 --
--- TOC entry 2107 (class 2606 OID 16834)
+-- TOC entry 2120 (class 2606 OID 16834)
 -- Name: fk_empresa_empresa_c_comuna; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1443,7 +1516,7 @@ ALTER TABLE ONLY empresa
 
 
 --
--- TOC entry 2108 (class 2606 OID 16839)
+-- TOC entry 2121 (class 2606 OID 16839)
 -- Name: fk_empresa_giro_empr_giro; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1452,7 +1525,7 @@ ALTER TABLE ONLY empresa
 
 
 --
--- TOC entry 2111 (class 2606 OID 16854)
+-- TOC entry 2124 (class 2606 OID 16854)
 -- Name: fk_estudio__curso_sen_curso; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1461,7 +1534,7 @@ ALTER TABLE ONLY estudio_factibilidad
 
 
 --
--- TOC entry 2112 (class 2606 OID 16859)
+-- TOC entry 2125 (class 2606 OID 16859)
 -- Name: fk_estudio__estudio_t_tipo_cur; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1470,7 +1543,7 @@ ALTER TABLE ONLY estudio_factibilidad
 
 
 --
--- TOC entry 2113 (class 2606 OID 16864)
+-- TOC entry 2126 (class 2606 OID 16864)
 -- Name: fk_estudio__manual_fa_tipo_man; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1479,7 +1552,7 @@ ALTER TABLE ONLY estudio_factibilidad
 
 
 --
--- TOC entry 2114 (class 2606 OID 16869)
+-- TOC entry 2127 (class 2606 OID 16869)
 -- Name: fk_estudio__vendedor_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1488,7 +1561,16 @@ ALTER TABLE ONLY estudio_factibilidad
 
 
 --
--- TOC entry 2115 (class 2606 OID 16879)
+-- TOC entry 2135 (class 2606 OID 16975)
+-- Name: fk_presupuesto_estudio; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY presupuesto
+    ADD CONSTRAINT fk_presupuesto_estudio FOREIGN KEY (ef_codigo) REFERENCES estudio_factibilidad(ef_codigo);
+
+
+--
+-- TOC entry 2128 (class 2606 OID 16879)
 -- Name: fk_relatore_relatores_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1497,7 +1579,7 @@ ALTER TABLE ONLY relatores
 
 
 --
--- TOC entry 2117 (class 2606 OID 16894)
+-- TOC entry 2130 (class 2606 OID 16894)
 -- Name: fk_requerim_factibili_estudio_; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1506,7 +1588,7 @@ ALTER TABLE ONLY requerimiento_tecnico
 
 
 --
--- TOC entry 2121 (class 2606 OID 16953)
+-- TOC entry 2134 (class 2606 OID 16953)
 -- Name: fk_requerim_factibili_estudio_; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1515,7 +1597,7 @@ ALTER TABLE ONLY requerimiento_academico
 
 
 --
--- TOC entry 2116 (class 2606 OID 16889)
+-- TOC entry 2129 (class 2606 OID 16889)
 -- Name: fk_requerim_factiblid_estudio_; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1524,7 +1606,7 @@ ALTER TABLE ONLY requerimiento_adquisicion
 
 
 --
--- TOC entry 2118 (class 2606 OID 16899)
+-- TOC entry 2131 (class 2606 OID 16899)
 -- Name: fk_usuario_perfil_us_perfil; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1533,7 +1615,7 @@ ALTER TABLE ONLY usuario
 
 
 --
--- TOC entry 2119 (class 2606 OID 16904)
+-- TOC entry 2132 (class 2606 OID 16904)
 -- Name: fk_usuario_sucusal_u_sucursal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1542,7 +1624,7 @@ ALTER TABLE ONLY usuario
 
 
 --
--- TOC entry 2120 (class 2606 OID 16909)
+-- TOC entry 2133 (class 2606 OID 16909)
 -- Name: fk_usuario_usuario_c_comuna; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1551,7 +1633,7 @@ ALTER TABLE ONLY usuario
 
 
 --
--- TOC entry 2255 (class 0 OID 0)
+-- TOC entry 2272 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -1562,7 +1644,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2017-09-28 00:07:41 -03
+-- Completed on 2017-10-06 01:24:49 -03
 
 --
 -- PostgreSQL database dump complete
