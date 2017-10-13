@@ -16,6 +16,7 @@
                                 <th>RUT</th>
                                 <th>Nombre</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -25,6 +26,13 @@
                                 <td><?php echo $usuario->codigo; ?></td>
                                 <td><?php echo $usuario->rut; ?></td>
                                 <td><?php echo $usuario->nombres . ' ' . $usuario->apellido_paterno . ' ' . $usuario->apellido_materno; ?></td>
+                                <td>
+                                <?php if($usuario->estado === "t"){ ?>
+                                    <button type="button" class="btn btn-primary btn-xs estado" rel="<?php echo $usuario->codigo .'-0'; ?>" >Activo</button>
+                                <?php } else{ ?>
+                                    <button type="button" class="btn btn-warning btn-xs estado" rel="<?php echo $usuario->codigo .'-1'; ?>">Inactivo</button>
+                                    <?php } ?>
+                                </td>
                                 <td style="text-align: center;">
                                 <a href="editar/<?php echo $usuario->codigo; ?>/">
                                     <button title="Editar" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>

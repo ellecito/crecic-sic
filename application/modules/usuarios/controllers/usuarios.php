@@ -23,6 +23,7 @@ class Usuarios extends CI_Controller {
 		$this->layout->setMeta('description','Usuarios');
         $this->layout->setMeta('keywords','Usuarios');
         
+        $this->layout->js('assets/js/sistema/index_usuario.js');
         $this->layout->js('assets/js/sistema/tabla.js');
 
 		$contenido = [
@@ -30,6 +31,17 @@ class Usuarios extends CI_Controller {
 		];
 
 		$this->layout->view('index', $contenido);
+	}
+
+	public function estados(){
+		try{
+			list($codigo,$estado) = explode('-',$this->input->post('codigo'));
+			$this->objUsuario->actualizar(array("us_estado"=>$estado),array("us_codigo"=>$codigo));
+			echo json_encode(array("result"=>true));
+		}
+		catch(Exception $e){
+			echo json_encode(array("result"=>false,"msg"=>"Ha ocurrido un error inesperado. Por favor, inténtelo nuevamente."));
+		}
 	}
 
 	public function agregar(){
