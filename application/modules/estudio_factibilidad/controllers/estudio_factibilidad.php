@@ -22,6 +22,7 @@ class Estudio_factibilidad extends CI_Controller {
 		$this->load->model("cursos/modelo_curso", "objCurso");
 		$this->load->model("empresas/modelo_empresa", "objEmpresa");
 		$this->load->model("usuarios/modelo_usuario", "objUsuario");
+		$this->load->model("inicio/modelo_email", "objEmail");
 	}
 
 	public function index(){
@@ -60,6 +61,12 @@ class Estudio_factibilidad extends CI_Controller {
 		try{
 			list($codigo,$estado) = explode('-',$this->input->post('codigo'));
 			$this->objFactibilidad->actualizar(array("ef_visado"=>$estado),array("ef_codigo"=>$codigo));
+			$usuarios_a_notificar = $this->objUsuarios->listar(["pe_codigo" => 1]);
+			$emails = [];
+			foreach($usuarios_a_notificar as $usuario_a_notificar){
+				$emails[] = $usuario_a_notificar->email;
+			}
+			$this->objEmail->notificar_ef($emails, $codigo);
 			echo json_encode(array("result"=>true));
 		}
 		catch(Exception $e){
