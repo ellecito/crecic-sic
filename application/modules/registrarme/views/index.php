@@ -57,17 +57,6 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="perfil">Perfil</label>
-                                    <select name="perfil" id="perfil" class="form-control validate[required]">
-                                        <option disabled selected>Seleccione</option>
-                                        <?php if($perfiles){ ?>
-                                        <?php foreach($perfiles as $perfil){ ?>
-                                         <option value="<?php echo $perfil->codigo; ?>"><?php echo $perfil->nombre; ?></option>
-                                        <?php } ?>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
                                     <label for="sucursal">Sucursal</label>
                                     <select name="sucursal" id="sucursal" class="form-control validate[required]">
                                         <option disabled selected>Seleccione</option>

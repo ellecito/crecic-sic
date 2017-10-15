@@ -5,6 +5,7 @@ class Usuarios extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		if(!$this->session->userdata("usuario")) redirect(base_url());
+		if($this->session->userdata("usuario")->perfil->codigo  != 1) redirect(base_url());
 		$this->layout->current = 3;
 		$this->layout->subCurrent = 1;
 		$this->load->model("modelo_usuario", "objUsuario");

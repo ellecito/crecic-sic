@@ -7,7 +7,6 @@ class Registrarme extends CI_Controller {
 		$this->load->model("usuarios/modelo_usuario", "objUsuario");
 		$this->load->model("regiones/modelo_region", "objRegion");
         $this->load->model("comunas/modelo_comuna", "objComuna");
-        $this->load->model("perfiles/modelo_perfil", "objPerfil");
         $this->load->model("sucursales/modelo_sucursal", "objSucursal");
 	}
 
@@ -21,7 +20,6 @@ class Registrarme extends CI_Controller {
 			$this->form_validation->set_rules('email', 'Email', 'required');
 			$this->form_validation->set_rules('password', 'Password', 'required');
             $this->form_validation->set_rules('comuna', 'Comuna', 'required');
-            $this->form_validation->set_rules('perfil', 'Perfil', 'required');
             $this->form_validation->set_rules('sucursal', 'Sucursal', 'required');
 			
 			$this->form_validation->set_message('required', '* %s es obligatorio');
@@ -46,7 +44,7 @@ class Registrarme extends CI_Controller {
                 "us_apellido_materno" => $this->input->post("apellido_materno"),
                 "us_email" => $this->input->post("email"),
                 "us_password" => md5($this->input->post("password")),
-                "pe_codigo" => $this->input->post("perfil"),
+                "pe_codigo" => 7, //Asesor por defecto
                 "su_codigo" => $this->input->post("sucursal"),
 				"co_codigo" => $this->input->post("comuna")
 			];
@@ -88,7 +86,6 @@ class Registrarme extends CI_Controller {
 				"regiones" => $this->objRegion->listar(),
 				"comunas" => $this->objComuna->listar(),
 				"sucursales" => $this->objSucursal->listar(),
-				"perfiles" => $this->objPerfil->listar(),
 				"home" => true
 			];
 
