@@ -29,8 +29,16 @@
                                     <input name="direccion" id="direccion" class="form-control validate[required]" placeholder="Calle 123, Ciudad" value="<?php echo $empresa->direccion; ?>">
                                 </div>
                                 <div class="form-group">
+                                    <label for="contacto">Contacto</label>
+                                    <input name="contacto" id="contacto" class="form-control validate[required]" value="<?php echo $empresa->contacto; ?>">
+                                </div>
+                                <div class="form-group">
                                     <label for="email">Email</label>
                                     <input name="email" id="email" class="form-control validate[required, custom[email]]" placeholder="contacto@empresa.cl" value="<?php echo $empresa->email; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefono">Teléfono</label>
+                                    <input name="telefono" id="telefono" class="form-control validate[required, custom[phone]]" value="<?php echo $empresa->telefono; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="giro">Giro</label>
@@ -39,6 +47,17 @@
                                         <?php if($giros){ ?>
                                         <?php foreach($giros as $giro){ ?>
                                          <option value="<?php echo $giro->codigo; ?>" <?php if($giro->codigo == $empresa->giro->codigo) echo "selected"; ?>><?php echo $giro->nombre; ?></option>
+                                        <?php } ?>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="rubro">Rubro</label>
+                                    <select name="rubro" id="rubro" class="form-control validate[required]">
+                                        <option disabled selected>Seleccione</option>
+                                        <?php if($rubros){ ?>
+                                        <?php foreach($rubros as $rubro){ ?>
+                                         <option value="<?php echo $rubro->codigo; ?>" <?php if($rubro->codigo == $empresa->rubro->codigo) echo "selected"; ?>><?php echo $rubro->nombre; ?></option>
                                         <?php } ?>
                                         <?php } ?>
                                     </select>

@@ -151,6 +151,9 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>tipo-manual/">Tipo Manual</a>
                                 </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>rubros/">Rubros</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

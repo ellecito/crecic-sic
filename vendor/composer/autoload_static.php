@@ -6,6 +6,16 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitd1fc2ea2fa8723f9a32620287fcb7b97
 {
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'PHPExcel' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'CGIF' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
         'CGIFCOLORTABLE' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
@@ -44,6 +54,7 @@ class ComposerStaticInitd1fc2ea2fa8723f9a32620287fcb7b97
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixesPsr0 = ComposerStaticInitd1fc2ea2fa8723f9a32620287fcb7b97::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitd1fc2ea2fa8723f9a32620287fcb7b97::$classMap;
 
         }, null, ClassLoader::class);

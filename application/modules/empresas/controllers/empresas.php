@@ -10,6 +10,7 @@ class Empresas extends CI_Controller {
 		$this->layout->subCurrent = 5;
 		$this->load->model("modelo_empresa", "objEmpresa");
 		$this->load->model("giros/modelo_giro", "objGiro");
+		$this->load->model("rubros/modelo_rubro", "objRubro");
 		$this->load->model("regiones/modelo_region", "objRegion");
 		$this->load->model("comunas/modelo_comuna", "objComuna");
 	}
@@ -38,7 +39,9 @@ class Empresas extends CI_Controller {
 			$this->form_validation->set_rules('rut', 'RUT', 'required');
 			$this->form_validation->set_rules('razon_social', 'Razón Social', 'required');
 			$this->form_validation->set_rules('direccion', 'Dirección', 'required');
+			$this->form_validation->set_rules('contacto', 'Email', 'required');
 			$this->form_validation->set_rules('email', 'Email', 'required');
+			$this->form_validation->set_rules('telefono', 'Teléfono', 'required');
 			$this->form_validation->set_rules('giro', 'Giro', 'required');
 			$this->form_validation->set_rules('comuna', 'Comuna', 'required');
 			
@@ -61,8 +64,11 @@ class Empresas extends CI_Controller {
 				"em_rut" => $this->input->post("rut"),
 				"em_razon_social" => $this->input->post("razon_social"),
 				"em_direccion" => $this->input->post("direccion"),
+				"em_contacto" => $this->input->post("contacto"),
 				"em_email" => $this->input->post("email"),
+				"em_telefono" => $this->input->post("telefono"),
 				"gi_codigo" => $this->input->post("giro"),
+				"ru_codigo" => $this->input->post("rubro"),
 				"co_codigo" => $this->input->post("comuna")
 			];
 
@@ -97,6 +103,7 @@ class Empresas extends CI_Controller {
 
 			$contenido = [
 				"giros" => $this->objGiro->listar(),
+				"rubros" => $this->objRubro->listar(),
 				"regiones" => $this->objRegion->listar(),
 				"comunas" => $this->objComuna->listar()
 			];
@@ -128,8 +135,11 @@ class Empresas extends CI_Controller {
 				"em_rut" => $this->input->post("rut"),
 				"em_razon_social" => $this->input->post("razon_social"),
 				"em_direccion" => $this->input->post("direccion"),
+				"em_contacto" => $this->input->post("contacto"),
 				"em_email" => $this->input->post("email"),
+				"em_telefono" => $this->input->post("telefono"),
 				"gi_codigo" => $this->input->post("giro"),
+				"ru_codigo" => $this->input->post("rubro"),
 				"co_codigo" => $this->input->post("comuna")
 			];
 
@@ -166,6 +176,7 @@ class Empresas extends CI_Controller {
 			$empresa = $this->objEmpresa->obtener_por_codigo($codigo);
 			$contenido = [
 				"giros" => $this->objGiro->listar(),
+				"rubros" => $this->objRubro->listar(),
 				"comunas" => $this->objComuna->listar(["re_codigo" => $empresa->comuna->region->codigo]),
 				"regiones" => $this->objRegion->listar(),
 				"empresa" => $empresa
@@ -173,6 +184,145 @@ class Empresas extends CI_Controller {
 
 			$this->layout->view('editar', $contenido);
 		}
+	}
+
+	public function excel(){
+
+		$empresas = $this->objEmpresa->listar();
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->
+			getProperties()
+				->setCreator("Crecic Capacitaciones")
+				->setLastModifiedBy("Crecic Capacitaciones")
+				->setTitle("Mantenedor Empresas")
+				->setSubject("Mantenedor Empresas")
+				->setDescription("Mantenedor Empresas")
+				->setKeywords("Mantenedor Empresas")
+				->setCategory("mantenedor");
+
+
+		$styleArray = array(
+				'borders' => array(
+						'outline' => array(
+							'style' => PHPExcel_Style_Border::BORDER_THIN,
+							'color' => array('argb' => '000000'),
+						),
+				),
+				'font'    => array(
+					'bold'      => true,
+					'italic'    => false,
+					'strike'    => false,
+				),
+			'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+			),
+			'fill' => array(
+				'type' => PHPExcel_Style_Fill::FILL_SOLID,
+				'color' => array('rgb' => 'BABDBB')
+			),
+		);
+		
+		$styleArraInfo = array(
+				'font'    => array(
+					'bold'      => false,
+					'italic'    => false,
+					'strike'    => false,
+					'size' => 10
+					),
+					'borders' => array(
+						'outline' => array(
+							'style' => PHPExcel_Style_Border::BORDER_THIN,
+							'color' => array('argb' => '000000'),
+						),
+				),
+				'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+				)
+		);
+		
+		
+		$styleFont = array(
+				'font'    => array(
+					'bold'      => true,
+					'italic'    => false,
+					'strike'    => false,
+				),
+			'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+			),
+		);
+
+		$objPHPExcel->getActiveSheet()->getStyle('1:3')->applyFromArray($styleFont);
+		
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'Empresas');
+		
+		$i=3;
+		$letra = 'A';
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'RUT');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Razon Social');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Direccion');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Email');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Giro');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Rubro');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+
+		foreach($empresas as $empresa){
+			$i++;
+			$letra = "A";
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $empresa->rut);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+				
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $empresa->razon_social);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $empresa->direccion);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $empresa->email);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $empresa->giro->nombre);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $empresa->rubro->nombre);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+		}
+
+		$objPHPExcel->getActiveSheet()->setTitle("SIC - Empresas ".date("d-m-Y"));
+
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="SIC_Empresas - '.date('d/m/Y').'.xls"');
+		header('Cache-Control: max-age=0');
+			
+		$objWriter=PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel5');
+		$objWriter->save('php://output');
+		exit;
+		
 	}
 
 	public function comunas(){

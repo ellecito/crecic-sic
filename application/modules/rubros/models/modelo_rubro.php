@@ -1,5 +1,5 @@
 <?php
-class Modelo_empresa extends CI_Model {
+class Modelo_rubro extends CI_Model {
 	private $tabla;
     private $prefijo;
     private $foreigns;
@@ -21,22 +21,6 @@ class Modelo_empresa extends CI_Model {
     
     private function setForeigns(){
         $foreigns = array();
-
-        $foreign = new stdClass();
-        $foreign->table = "comuna";
-        $foreign->dir = "comunas";
-        $foreigns["co_codigo"] = $foreign;
-
-        $foreign = new stdClass();
-        $foreign->table = "giro";
-        $foreign->dir = "giros";
-		$foreigns["gi_codigo"] = $foreign;
-		
-		$foreign = new stdClass();
-        $foreign->table = "rubro";
-        $foreign->dir = "rubros";
-        $foreigns["ru_codigo"] = $foreign;
-
         return $foreigns;
     }
 	
