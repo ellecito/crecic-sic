@@ -269,11 +269,11 @@ class Empresas extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
 		
 		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
-		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Razon Social');
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Razón Social');
 		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
 		
 		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
-		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Direccion');
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Dirección');
 		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
 		
 		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);

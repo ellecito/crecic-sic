@@ -200,6 +200,166 @@ class Usuarios extends CI_Controller {
 		}
 	}
 
+	public function excel(){
+
+		$usuarios = $this->objUsuario->listar();
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->
+			getProperties()
+				->setCreator("Crecic Capacitaciones")
+				->setLastModifiedBy("Crecic Capacitaciones")
+				->setTitle("Mantenedor Usuarios")
+				->setSubject("Mantenedor Usuarios")
+				->setDescription("Mantenedor Usuarios")
+				->setKeywords("Mantenedor Usuarios")
+				->setCategory("mantenedor");
+
+
+		$styleArray = array(
+				'borders' => array(
+						'outline' => array(
+							'style' => PHPExcel_Style_Border::BORDER_THIN,
+							'color' => array('argb' => '000000'),
+						),
+				),
+				'font'    => array(
+					'bold'      => true,
+					'italic'    => false,
+					'strike'    => false,
+				),
+			'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+			),
+			'fill' => array(
+				'type' => PHPExcel_Style_Fill::FILL_SOLID,
+				'color' => array('rgb' => 'BABDBB')
+			),
+		);
+		
+		$styleArraInfo = array(
+				'font'    => array(
+					'bold'      => false,
+					'italic'    => false,
+					'strike'    => false,
+					'size' => 10
+					),
+					'borders' => array(
+						'outline' => array(
+							'style' => PHPExcel_Style_Border::BORDER_THIN,
+							'color' => array('argb' => '000000'),
+						),
+				),
+				'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+				)
+		);
+		
+		
+		$styleFont = array(
+				'font'    => array(
+					'bold'      => true,
+					'italic'    => false,
+					'strike'    => false,
+				),
+			'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+			),
+		);
+
+		$objPHPExcel->getActiveSheet()->getStyle('1:3')->applyFromArray($styleFont);
+		
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'Usuarios');
+		
+		$i=3;
+		$letra = 'A';
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'RUT');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Nombres');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Apellido Paterno');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Apellido Materno');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Perfil');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Sucursal');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Comuna');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Estado');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Email');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+
+		foreach($usuarios as $usuario){
+			$i++;
+			$letra = "A";
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $usuario->rut);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+				
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $usuario->nombres);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $usuario->apellido_paterno);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $usuario->apellido_materno);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $usuario->perfil->nombre);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $usuario->sucursal->nombre);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $usuario->comuna->nombre);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, ($usuario->estado == "t") ? "Activo" : "Inactivo");
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $usuario->email);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+		}
+
+		$objPHPExcel->getActiveSheet()->setTitle("SIC - Usuarios ".date("d-m-Y"));
+
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="SIC_Usuarios - '.date('d/m/Y').'.xls"');
+		header('Cache-Control: max-age=0');
+			
+		$objWriter=PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel5');
+		$objWriter->save('php://output');
+		exit;
+		
+	}
+
 	public function comunas(){
 		if($this->input->post()){
 			$html = '<option disabled selected>Seleccione</option>';

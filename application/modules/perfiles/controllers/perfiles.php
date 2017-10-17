@@ -116,5 +116,116 @@ class Perfiles extends CI_Controller {
 			$this->layout->view('editar', $contenido);
 		}
 	}
+
+	public function excel(){
+
+		$perfiles = $this->objPerfil->listar();
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->
+			getProperties()
+				->setCreator("Crecic Capacitaciones")
+				->setLastModifiedBy("Crecic Capacitaciones")
+				->setTitle("Mantenedor Perfiles")
+				->setSubject("Mantenedor Perfiles")
+				->setDescription("Mantenedor Perfiles")
+				->setKeywords("Mantenedor Perfiles")
+				->setCategory("mantenedor");
+
+
+		$styleArray = array(
+				'borders' => array(
+						'outline' => array(
+							'style' => PHPExcel_Style_Border::BORDER_THIN,
+							'color' => array('argb' => '000000'),
+						),
+				),
+				'font'    => array(
+					'bold'      => true,
+					'italic'    => false,
+					'strike'    => false,
+				),
+			'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+			),
+			'fill' => array(
+				'type' => PHPExcel_Style_Fill::FILL_SOLID,
+				'color' => array('rgb' => 'BABDBB')
+			),
+		);
+		
+		$styleArraInfo = array(
+				'font'    => array(
+					'bold'      => false,
+					'italic'    => false,
+					'strike'    => false,
+					'size' => 10
+					),
+					'borders' => array(
+						'outline' => array(
+							'style' => PHPExcel_Style_Border::BORDER_THIN,
+							'color' => array('argb' => '000000'),
+						),
+				),
+				'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+				)
+		);
+		
+		
+		$styleFont = array(
+				'font'    => array(
+					'bold'      => true,
+					'italic'    => false,
+					'strike'    => false,
+				),
+			'alignment' => array(
+					'wrap'       => true,
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+			),
+		);
+
+		$objPHPExcel->getActiveSheet()->getStyle('1:3')->applyFromArray($styleFont);
+		
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'Perfiles');
+		
+		$i=3;
+		$letra = 'A';
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Código');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+		
+		$objPHPExcel->getActiveSheet()->getColumnDimension($letra)->setWidth(35);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, 'Nombre');
+		$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArray);
+
+		foreach($perfiles as $perfil){
+			$i++;
+			$letra = "A";
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $perfil->codigo);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+				
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($letra.$i, $perfil->nombre);
+			$objPHPExcel->getActiveSheet()->getStyle($letra++.$i)->applyFromArray($styleArraInfo);
+		}
+
+		$objPHPExcel->getActiveSheet()->setTitle("SIC - Perfiles ".date("d-m-Y"));
+
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="SIC_Perfiles - '.date('d/m/Y').'.xls"');
+		header('Cache-Control: max-age=0');
+			
+		$objWriter=PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel5');
+		$objWriter->save('php://output');
+		exit;
+		
+	}
 	
 }
