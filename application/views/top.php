@@ -158,6 +158,9 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <?php } ?>
+                        <li>
+                            <a href="http://35.189.5.192/capacitacion/"><i class="fa fa-edit fa-fw"></i> SIC Antiguo</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

@@ -17,7 +17,8 @@
         <button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
         <br />
         <br />
-        <a href="registrarme/">Registrarme</a>
+        <a href="registrarme/">Registrarme</a><br>
+        <a href="http://35.189.5.192/capacitacion/">SIC Antiguo</a>
       </div>
     </form>
   </div>
